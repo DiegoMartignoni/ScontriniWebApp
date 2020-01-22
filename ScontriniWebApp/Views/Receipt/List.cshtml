@@ -1,52 +1,52 @@
-﻿
+﻿@model List<ReceiptViewModel>
 @{
     ViewData["Title"] = "List";
 }
 
-    <div class="text-center">
-        <h1 class="display-4">Lista Scontrini</h1>
+<div class="text-center">
+    <h1 class="display-4">Lista Scontrini</h1>
 
-        @for (int i = 0; i < 10; i++)
-        {
-            <hr />
-            <div class="container">
-                <div class="row d-flex align-items-center">
-                    <div class="col-md-2 pb-1 pt-1">
-                        <span class="d-flex align-items-center">
-                            <img class="p-2 p-md-1" src="~/media/credit-card-solid.svg" alt="Bancomat" width="30" height="30" />
-                            Bancomat
-                        </span>
-                    </div>
-                    <div class="col-md-3 pb-1 pt-1">
-                        <span class="d-flex align-items-center">
-                            <img class="p-2 p-md-1" src="~/media/map-marker-alt-solid.svg" alt="Map Location" width="30" height="30" />
-                            CENTRO COMM...
-                        </span>
-                    </div>
-                    <div class="col-md-2 pb-1 pt-1">
-                        <span class="d-flex align-items-center">
-                            <img class="p-2 p-md-1" src="~/media/calendar-day-solid.svg" alt="Date" width="30" height="30" />
-                            19-01-2020
-                        </span>
-                    </div>
-                    <div class="col-md-2 pb-1 pt-1">
-                        <span class="d-flex align-items-center">
-                            <img class="p-2 p-md-1" src="~/media/clock-solid.svg" alt="Time" width="30" height="30" />
-                            20:11
-                        </span>
-                    </div>
-                    <div class="col-md-2 pb-1 pt-1">
-                        <span class="d-flex align-items-center">
-                            <img class="p-2 p-md-1" src="~/media/coins-solid.svg" alt="Value" width="30" height="30" />
-                            € 12,90
-                        </span>
-                    </div>
-                    <div class="col-md-1 pb-1 pt-1">
-                        <a asp-route-id="@i" asp-controller="Receipt" asp-action="Detail" class="btn btn-outline-primary">Dettaglio</a>
-                    </div>
+    @foreach(ReceiptViewModel receipt in Model)
+    {
+        <hr />
+        <div class="container">
+            <div class="row d-flex align-items-center">
+                <div class="col-md-2 pb-1 pt-1">
+                    <span class="d-flex align-items-center">
+                        <img class="p-2 p-md-1" src="~/media/@receipt.TransactionMethod.ImagePath" width="30" height="30" />
+                        @receipt.TransactionMethod.PaymentMethod
+                    </span>
+                </div>
+                <div class="col-md-3 pb-1 pt-1">
+                    <span class="d-flex align-items-center">
+                        <img class="p-2 p-md-1" src="~/media/map-marker-alt-solid.svg" alt="Map Location" width="30" height="30" />
+                        @receipt.Location
+                    </span>
+                </div>
+                <div class="col-md-2 pb-1 pt-1">
+                    <span class="d-flex align-items-center">
+                        <img class="p-2 p-md-1" src="~/media/calendar-day-solid.svg" alt="Date" width="30" height="30" />
+                        @receipt.DateTime.Day-@receipt.DateTime.Month-@receipt.DateTime.Year
+                    </span>
+                </div>
+                <div class="col-md-2 pb-1 pt-1">
+                    <span class="d-flex align-items-center">
+                        <img class="p-2 p-md-1" src="~/media/clock-solid.svg" alt="Time" width="30" height="30" />
+                        @receipt.DateTime.Hour:@receipt.DateTime.Minute
+                    </span>
+                </div>
+                <div class="col-md-2 pb-1 pt-1">
+                    <span class="d-flex align-items-center">
+                        <img class="p-2 p-md-1" src="~/media/coins-solid.svg" alt="Value" width="30" height="30" />
+                        @receipt.Price.ToString()
+                    </span>
+                </div>
+                <div class="col-md-1 pb-1 pt-1">
+                    <a asp-route-id="@receipt.Id" asp-controller="Receipt" asp-action="Detail" class="btn btn-outline-primary">Dettaglio</a>
                 </div>
             </div>
-        }
-
         </div>
+    }
+
+</div>
 

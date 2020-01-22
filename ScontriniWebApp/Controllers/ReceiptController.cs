@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using ScontriniWebApp.Models.Services.Application;
+using ScontriniWebApp.Models.ViewModels;
 
 namespace ScontriniWebApp.Controllers
 {
@@ -15,7 +17,9 @@ namespace ScontriniWebApp.Controllers
 
         public IActionResult List()
         {
-            return View();
+            ReceiptService receiptService = new ReceiptService();
+            List<ReceiptViewModel> receipts = receiptService.GetServices();
+            return View(receipts);
         }
 
         public IActionResult Detail(int id)
