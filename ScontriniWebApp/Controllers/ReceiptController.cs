@@ -17,5 +17,12 @@ namespace ScontriniWebApp.Controllers
         {
             return View();
         }
+
+        public IActionResult Detail(int id)
+        {
+            ViewData["id"] = id;
+
+            return View();
+        }
     }
 }
