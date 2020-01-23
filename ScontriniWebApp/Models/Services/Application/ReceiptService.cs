@@ -27,8 +27,19 @@ namespace ScontriniWebApp.Models.Services.Application
                     TransactionMethod = new TransactionMethods(randomTransactionMethod[ramdomMethodNumber, 0], randomTransactionMethod[ramdomMethodNumber, 1]),
                     Location = "Via S.Bernardino - BERGAMO",
                     DateTime = new DateTime(2020, 1, 22, 12, 34, 0),
+                    StoreItems = new List<StoreItem>(),
                     Price = new Money(Enums.Currency.EUR, rand.NextDouble() > 0.5 ? randomPrice : randomPrice - 1)
                 };
+
+                var randomListItems = rand.Next(1, 20);
+                for (int j = 0; j < randomListItems; j++)
+                {
+                    randomPrice = Convert.ToDecimal(rand.NextDouble() * 10 * 10);
+                    StoreItem storeItem = new StoreItem();
+                    storeItem.Amount = rand.NextDouble() > 0.5 ? randomPrice : randomPrice - 1;
+                    receipt.StoreItems.Add(storeItem);
+                }
+
                 receiptList.Add(receipt);
             }
             return receiptList;

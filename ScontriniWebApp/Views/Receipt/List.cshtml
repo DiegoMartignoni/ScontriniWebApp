@@ -27,29 +27,23 @@
                                 </button>
                                 <div class="container mb-4 text-secondary">
                                     <dv class="row font-weight-bolder d-flex justify-content-end">EUR</dv>
-                                    <div class="row d-flex justify-content-between">
-                                        <p class="mb-0">SUCCCO ACE</p>
-                                        <p class="mb-0">1,98</p>
-                                    </div>
-                                    <div class="row d-flex justify-content-between">
-                                        <p class="mb-0">SUPPLI' ROMANA</p>
-                                        <p class="mb-0">3,45</p>
-                                    </div>
-                                    <div class="row d-flex justify-content-between">
-                                        <p class="mb-0">TWIX X6</p>
-                                        <p class="mb-0">7,43</p>
-                                    </div>
-                                    <div class="row d-flex justify-content-between">
-                                        <p class="mb-0">KIT KAT FAMILY T/8</p>
-                                        <p class="mb-0">12,44</p>
-                                    </div>
-                                    <div class="row d-flex justify-content-between">
-                                        <p class="mb-0">SHOPPER</p>
-                                        <p class="mb-0">0,99</p>
-                                    </div>
-                                    <div class="row d-flex justify-content-center">
-                                        <p class="mb-0 font-weight-bolder">...</p>
-                                    </div>
+                                    @foreach (var item in (@receipt.StoreItems.Count() > 4 ? receipt.StoreItems.GetRange(0, 4) : receipt.StoreItems))
+                                    {
+                                        <div class="row d-flex justify-content-between">
+                                            <p class="mb-0">@item.Name</p>
+                                            <p class="mb-0">@item.ToString()</p>
+                                        </div>
+                                    }
+                                    @if (@receipt.StoreItems.Count() > 4)
+                                    {
+                                        <div class="row d-flex justify-content-center">
+                                            <p class="mb-0 font-weight-bolder">...</p>
+                                        </div>
+                                        <div class="row d-flex justify-content-center">
+                                            <small class="mb-0 font-weight-bolder">@receipt.StoreItems.Count() elementi totali</small>
+                                        </div>
+                                    }
+
                                 </div>
                                 
                                 <div class="d-flex flex-wrap">
