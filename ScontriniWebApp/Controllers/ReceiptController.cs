@@ -18,7 +18,7 @@ namespace ScontriniWebApp.Controllers
         public IActionResult List()
         {
             ReceiptService receiptService = new ReceiptService();
-            List<ReceiptViewModel> receipts = receiptService.GetServices();
+            List<ReceiptViewModel> receipts = receiptService.GetReceipts();
             return View(receipts);
         }
 

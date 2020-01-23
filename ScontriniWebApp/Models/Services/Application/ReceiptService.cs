@@ -7,7 +7,7 @@ namespace ScontriniWebApp.Models.Services.Application
 {
     public class ReceiptService
     {
-        public List<ReceiptViewModel> GetServices()
+        public List<ReceiptViewModel> GetReceipts()
         {
             var receiptList = new List<ReceiptViewModel>();
             string[,] randomTransactionMethod = new string[2, 2];
