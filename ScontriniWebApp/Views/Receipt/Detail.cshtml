@@ -1,4 +1,4 @@
-﻿
+﻿@model ReceiptDetailViewModel
 @{
     ViewData["Title"] = "Detail";
 }
@@ -12,56 +12,31 @@
                 <div class="card text-left bg-light mb-4 shadow-sm">
                     <div class="card-header">
                         <span class="d-flex align-items-center">
-                            <img class="p-2 p-md-1" src="~/media/coins-solid.svg" width="30" height="30" />
-                            Contanti
+                            <img class="p-2 p-md-1" src="~/media/@Model.TransactionMethod.ImagePath" width="30" height="30" />
+                            @Model.TransactionMethod.PaymentMethod
                         </span>
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title">EUR 19,99</h5>
+                        <h5 class="card-title">@Model.Price.ToString()</h5>
                         <span class="p-2 d-flex align-items-center">
                             <img class="pr-2" src="~/media/map-marker-alt-solid.svg" alt="Map Location" width="20" />
-                            Centro commerciale - Bergamo
+                            @Model.Location
                         </span>
                         <div class="container mb-4 text-secondary">
                             <dv class="row font-weight-bolder d-flex justify-content-end">EUR</dv>
 
-                            <div class="row d-flex justify-content-between">
-                                <p class="mb-0">SCONOSCIUTO</p>
-                                <p class="mb-0">EUR 19,99</p>
-                            </div>
-                            <div class="row d-flex justify-content-between">
-                                <p class="mb-0">SCONOSCIUTO</p>
-                                <p class="mb-0">EUR 19,99</p>
-                            </div>
-                            <div class="row d-flex justify-content-between">
-                                <p class="mb-0">SCONOSCIUTO</p>
-                                <p class="mb-0">EUR 19,99</p>
-                            </div>
-                            <div class="row d-flex justify-content-between">
-                                <p class="mb-0">SCONOSCIUTO</p>
-                                <p class="mb-0">EUR 19,99</p>
-                            </div>
-                            <div class="row d-flex justify-content-between">
-                                <p class="mb-0">SCONOSCIUTO</p>
-                                <p class="mb-0">EUR 19,99</p>
-                            </div>
-                            <div class="row d-flex justify-content-between">
-                                <p class="mb-0">SCONOSCIUTO</p>
-                                <p class="mb-0">EUR 19,99</p>
-                            </div>
-                            <div class="row d-flex justify-content-between">
-                                <p class="mb-0">SCONOSCIUTO</p>
-                                <p class="mb-0">EUR 19,99</p>
-                            </div>
-                            <div class="row d-flex justify-content-between">
-                                <p class="mb-0">SCONOSCIUTO</p>
-                                <p class="mb-0">EUR 19,99</p>
-                            </div>
+                            @foreach (var item in @Model.StoreItems)
+                            {
+                                <div class="row d-flex justify-content-between">
+                                    <p class="mb-0">@item.Name</p>
+                                    <p class="mb-0">@item.ToString()</p>
+                                </div>
+                            }
                         </div>
                     </div>
                     <div class="card-footer d-flex justify-content-between">
-                        <small>23-01-2020</small>
-                        <small>14:25</small>
+                        <small>@Model.DateTime.Day-@Model.DateTime.Month-@Model.DateTime.Year</small>
+                        <small>@Model.DateTime.Hour:@Model.DateTime.Minute</small>
                     </div>
                 </div>
             </div>
@@ -71,12 +46,12 @@
                         <div class="col-auto col-lg-6 card bg-light p-0 mb-4 shadow-sm">
                             <div class="row no-gutters">
                                 <div class="col-4 d-flex align-items-center">
-                                    <img src="~/media/pago-bancomat.jpg" class="card-img rounded-left" alt="...">
+                                    <img src="~/media/@Model.ReceiptTemplate.ImagePath" class="card-img rounded-left" alt="...">
                                 </div>
                                 <div class="col-8 d-flex align-items-center">
                                     <div class="card-body p-2">
                                         <h5 class="card-title m-0">Template Scontrino</h5>
-                                        <p class="card-text"><small>PagoBancomat</small></p>
+                                        <p class="card-text"><small>@Model.ReceiptTemplate.Name</small></p>
                                     </div>
                                 </div>
                             </div>
@@ -89,7 +64,10 @@
                                 <p class="card-text">Carica l'immagine originale dello scontrino. Assicurati che disponga della giusta qualità.</p>
                                 <a href="#" class="btn btn-primary mb-3">Upload</a>
                                 <a href="#" class="btn btn-primary mb-3">Download</a>
-                                <img src="~/media/scontrino-mock-orig.jpg" class="img-fluid img-thumbnail mb-2" alt="Alternate Text" />
+                                @if (!String.IsNullOrEmpty(Model.OrigImagePath))
+                                {
+                                    <img src="~/media/@Model.OrigImagePath" class="img-fluid img-thumbnail mb-2" alt="Alternate Text" />
+                                }
                             </div>
                         </div>
                     </div>
@@ -100,7 +78,10 @@
                                 <p class="card-text">Carica l'immagine originale dello scontrino. Assicurati che disponga della giusta qualità.</p>
                                 <a href="#" class="btn btn-primary mb-3">Upload</a>
                                 <a href="#" class="btn btn-primary mb-3">Download</a>
-                                <img src="~/media/scontrino-mock-elab.jpg" class="img-fluid img-thumbnail mb-2" alt="Alternate Text" />
+                                @if (!String.IsNullOrEmpty(Model.ElabImagePath))
+                                {
+                                    <img src="~/media/@Model.ElabImagePath" class="img-fluid img-thumbnail mb-2" alt="Alternate Text" />
+                                }
                             </div>
                         </div>
                     </div>

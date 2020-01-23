@@ -10,6 +10,7 @@ namespace ScontriniWebApp.Controllers
 {
     public class ReceiptController : Controller
     {
+        private ReceiptService receiptService = new ReceiptService();
         public IActionResult Index()
         {
             return View();
@@ -17,16 +18,14 @@ namespace ScontriniWebApp.Controllers
 
         public IActionResult List()
         {
-            ReceiptService receiptService = new ReceiptService();
             List<ReceiptViewModel> receipts = receiptService.GetReceipts();
             return View(receipts);
         }
 
         public IActionResult Detail(int id)
         {
-            ViewData["id"] = id;
-
-            return View();
+            ReceiptDetailViewModel receipt = receiptService.GetReceipt(id);
+            return View(receipt);
         }
     }
 }
