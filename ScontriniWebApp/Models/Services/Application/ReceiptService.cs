@@ -25,7 +25,7 @@ namespace ScontriniWebApp.Models.Services.Application
                 {
                     Id = i,
                     TransactionMethod = new TransactionMethods(randomTransactionMethod[ramdomMethodNumber, 0], randomTransactionMethod[ramdomMethodNumber, 1]),
-                    Location = "CENTRO COMM...",
+                    Location = "Via S.Bernardino - BERGAMO",
                     DateTime = new DateTime(2020, 1, 22, 12, 34, 0),
                     Price = new Money(Enums.Currency.EUR, rand.NextDouble() > 0.5 ? randomPrice : randomPrice - 1)
                 };
