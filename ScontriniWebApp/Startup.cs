@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ScontriniWebApp.Models.Services.Application;
+using ScontriniWebApp.Models.Services.Infrastructure;
 
 namespace ScontriniWebApp
 {
@@ -25,7 +26,8 @@ namespace ScontriniWebApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddTransient<IReceiptService, ReceiptService>();
+            services.AddTransient<IReceiptService, AdoNetReceiptService>();
+            services.AddTransient<IDatabaseManager, SqliteDatabaseManager>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
