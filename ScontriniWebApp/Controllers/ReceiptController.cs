@@ -10,7 +10,12 @@ namespace ScontriniWebApp.Controllers
 {
     public class ReceiptController : Controller
     {
-        private ReceiptService receiptService = new ReceiptService();
+        private readonly IReceiptService receiptService;
+
+        public ReceiptController(IReceiptService receiptService)
+        {
+            this.receiptService = receiptService;
+        }
         public IActionResult Index()
         {
             return View();

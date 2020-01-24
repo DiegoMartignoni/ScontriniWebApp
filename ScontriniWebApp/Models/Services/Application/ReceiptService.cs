@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace ScontriniWebApp.Models.Services.Application
 {
-    public class ReceiptService
+    public class ReceiptService : IReceiptService
     {
         public List<ReceiptViewModel> GetReceipts()
         {
