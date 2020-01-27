@@ -18,7 +18,7 @@ namespace ScontriniWebApp.Models.ValueTypes
         }
         public string Name { get; set; }
 
-        internal static StoreItem FromDataRow(DataRow storeItemsRow)
+        public static StoreItem FromDataRow(DataRow storeItemsRow)
         {
             var item = new StoreItem
             {
