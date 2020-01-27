@@ -20,7 +20,7 @@ namespace ScontriniWebApp.Models.ViewModels
 
         public Money Price { get; set; }
 
-        public static ReceiptViewModel FromDataRow(DataRow receiptRow, List<StoreItem> storeItems)
+        public static ReceiptViewModel FromDataRow(DataRow receiptRow)
         {
             var receiptViewModel = new ReceiptViewModel
             {
@@ -32,7 +32,6 @@ namespace ScontriniWebApp.Models.ViewModels
                 },
                 Location = Convert.ToString(receiptRow["location"]),
                 DateTime = Convert.ToDateTime(receiptRow["fullDate"]),
-                StoreItems = storeItems,
                 Price = new Money
                 {
                     Currency = Enum.Parse<Currency>(Convert.ToString(receiptRow["currency"])),

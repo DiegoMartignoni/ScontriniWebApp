@@ -29,24 +29,25 @@ namespace ScontriniWebApp.Models.Services.Application
 
             foreach (DataRow receiptRow in dataTable.Rows)
             {
-                List<StoreItem> storeItems = this.GetStoreItems(Convert.ToInt32(receiptRow["idReceipt"]), Convert.ToString(receiptRow["currency"]));
-                ReceiptViewModel receipt = ReceiptViewModel.FromDataRow(receiptRow, storeItems);
+                List<StoreItem> storeItems = this.GetStoreItems(Convert.ToInt32(receiptRow["idReceipt"]));
+                ReceiptViewModel receipt = ReceiptViewModel.FromDataRow(receiptRow);
+                receipt.StoreItems = storeItems;
                 receiptList.Add(receipt);
             }
 
             return receiptList;
         }
 
-        public List<StoreItem> GetStoreItems(int id, string currency)
+        public List<StoreItem> GetStoreItems(int id)
         {
-            string query = $"SELECT S.name, S.amount FROM STORE_ITEMS AS S WHERE S.idReceipt = {id}";
+            string query = $"SELECT S.name, S.amount, S.currency FROM STORE_ITEMS AS S WHERE S.idReceipt = {id}";
             DataSet dataSet = db.Query(query);
             var dataTable = dataSet.Tables[0];
             var storeItems = new List<StoreItem>();
 
             foreach (DataRow storeItemsRow in dataTable.Rows)
             {
-                StoreItem item = StoreItem.FromDataRow(storeItemsRow, currency);
+                StoreItem item = StoreItem.FromDataRow(storeItemsRow);
                 storeItems.Add(item);
             }
 

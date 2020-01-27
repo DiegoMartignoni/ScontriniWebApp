@@ -18,11 +18,11 @@ namespace ScontriniWebApp.Models.ValueTypes
         }
         public string Name { get; set; }
 
-        internal static StoreItem FromDataRow(DataRow storeItemsRow, string currency)
+        internal static StoreItem FromDataRow(DataRow storeItemsRow)
         {
             var item = new StoreItem
             {
-                Currency = Enum.Parse<Currency>(currency),
+                Currency = Enum.Parse<Currency>(Convert.ToString(storeItemsRow["currency"])),
                 Amount = Convert.ToDecimal(storeItemsRow["amount"]),
                 Name = Convert.ToString(storeItemsRow["name"])
             };
