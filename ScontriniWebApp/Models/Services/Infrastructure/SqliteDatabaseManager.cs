@@ -9,7 +9,7 @@ namespace ScontriniWebApp.Models.Services.Infrastructure
 {
     public class SqliteDatabaseManager : IDatabaseManager
     {
-        public DataSet Query(FormattableString formattableQuery)
+        public async Task<DataSet> QueryAsync(FormattableString formattableQuery)
         {
 
             var queryArguments = formattableQuery.GetArguments();
@@ -24,11 +24,11 @@ namespace ScontriniWebApp.Models.Services.Infrastructure
 
             using (var conn = new SqliteConnection("Data Source=Data/ScontriniWebApp.db"))
             {
-                conn.Open();
+                await conn.OpenAsync();
                 using(var cmd = new SqliteCommand(query, conn))
                 {
                     cmd.Parameters.AddRange(sqliteParamaters);
-                    using (var reader = cmd.ExecuteReader())
+                    using (var reader = await cmd.ExecuteReaderAsync())
                     {
                         var dataSet = new DataSet();
                         var dataTable = new DataTable();

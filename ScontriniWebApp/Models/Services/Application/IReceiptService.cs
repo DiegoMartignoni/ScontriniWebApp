@@ -1,13 +1,14 @@
 ﻿using ScontriniWebApp.Models.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ScontriniWebApp.Models.Services.Application
 {
     public interface IReceiptService
     {
-        List<ReceiptViewModel> GetReceipts();
+        Task<List<ReceiptViewModel>> GetReceiptsAsync();
 
-        ReceiptDetailViewModel GetReceipt(int id);
+        Task<ReceiptDetailViewModel> GetReceiptAsync(int id);
     }
 }

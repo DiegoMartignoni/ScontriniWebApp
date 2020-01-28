@@ -8,6 +8,6 @@ namespace ScontriniWebApp.Models.Services.Infrastructure
 {
     public interface IDatabaseManager
     {
-        DataSet Query(FormattableString formattableQuery);
+        Task<DataSet> QueryAsync(FormattableString formattableQuery);
     }
 }
