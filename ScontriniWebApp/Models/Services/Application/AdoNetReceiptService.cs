@@ -17,7 +17,7 @@ namespace ScontriniWebApp.Models.Services.Application
         }
         public ReceiptDetailViewModel GetReceipt(int id)
         {
-            string query = $"SELECT T.transImagePath, T.paymentMethod, R.location, R.fullDate, R.currency, R.amount, RT.name, R.origImagePath, R.elabImagePath, RT.templateImagePath FROM RECEIPTS AS R INNER JOIN TRANS_METHODS AS T ON R.idTransactionMethod = T.idTransMethod INNER JOIN RECEIPT_TEMPLATES AS RT ON R.idReceiptTemplate = RT.idReceiptTemplate WHERE R.idReceipt = {id}";
+            FormattableString query = $"SELECT T.transImagePath, T.paymentMethod, R.location, R.fullDate, R.currency, R.amount, RT.name, R.origImagePath, R.elabImagePath, RT.templateImagePath FROM RECEIPTS AS R INNER JOIN TRANS_METHODS AS T ON R.idTransactionMethod = T.idTransMethod INNER JOIN RECEIPT_TEMPLATES AS RT ON R.idReceiptTemplate = RT.idReceiptTemplate WHERE R.idReceipt = {id}";
             DataSet dataSet = db.Query(query);
             var dataTable = dataSet.Tables[0];
             var receiptRow = dataTable.Rows[0];
@@ -30,7 +30,7 @@ namespace ScontriniWebApp.Models.Services.Application
 
         public List<ReceiptViewModel> GetReceipts()
         {
-            string query = "SELECT R.idReceipt, T.transImagePath, T.paymentMethod, R.location, R.fullDate, R.currency, R.amount FROM RECEIPTS AS R INNER JOIN TRANS_METHODS AS T ON R.idTransactionMethod = T.idTransMethod";
+            FormattableString query = $"SELECT R.idReceipt, T.transImagePath, T.paymentMethod, R.location, R.fullDate, R.currency, R.amount FROM RECEIPTS AS R INNER JOIN TRANS_METHODS AS T ON R.idTransactionMethod = T.idTransMethod";
             DataSet dataSet = db.Query(query);
             var dataTable = dataSet.Tables[0];
             var receiptList = new List<ReceiptViewModel>();
@@ -48,7 +48,7 @@ namespace ScontriniWebApp.Models.Services.Application
 
         private List<StoreItem> GetStoreItems(int id)
         {
-            string query = $"SELECT S.name, S.amount, S.currency FROM STORE_ITEMS AS S WHERE S.idReceipt = {id}";
+            FormattableString query = $"SELECT S.name, S.amount, S.currency FROM STORE_ITEMS AS S WHERE S.idReceipt = {id}";
             DataSet dataSet = db.Query(query);
             var dataTable = dataSet.Tables[0];
             var storeItems = new List<StoreItem>();
