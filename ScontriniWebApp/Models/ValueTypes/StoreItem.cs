@@ -1,5 +1,6 @@
 ﻿using ScontriniWebApp.Models.Enums;
 using System;
+using System.Data;
 
 namespace ScontriniWebApp.Models.ValueTypes
 {
@@ -16,5 +17,17 @@ namespace ScontriniWebApp.Models.ValueTypes
             Name = name.ToUpper();
         }
         public string Name { get; set; }
+
+        public static StoreItem FromDataRow(DataRow storeItemsRow)
+        {
+            var item = new StoreItem
+            {
+                Currency = Enum.Parse<Currency>(Convert.ToString(storeItemsRow["currency"])),
+                Amount = Convert.ToDecimal(storeItemsRow["amount"]),
+                Name = Convert.ToString(storeItemsRow["name"])
+            };
+
+            return item;
+        }
     }
 }

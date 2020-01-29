@@ -10,21 +10,26 @@ namespace ScontriniWebApp.Controllers
 {
     public class ReceiptController : Controller
     {
-        private ReceiptService receiptService = new ReceiptService();
+        private readonly IReceiptService receiptService;
+
+        public ReceiptController(IReceiptService receiptService)
+        {
+            this.receiptService = receiptService;
+        }
         public IActionResult Index()
         {
             return View();
         }
 
-        public IActionResult List()
+        public async Task<IActionResult> List()
         {
-            List<ReceiptViewModel> receipts = receiptService.GetReceipts();
+            List<ReceiptViewModel> receipts = await receiptService.GetReceiptsAsync();
             return View(receipts);
         }
 
-        public IActionResult Detail(int id)
+        public async Task<IActionResult> Detail(int id)
         {
-            ReceiptDetailViewModel receipt = receiptService.GetReceipt(id);
+            ReceiptDetailViewModel receipt = await receiptService.GetReceiptAsync(id);
             return View(receipt);
         }
     }
