@@ -42,6 +42,7 @@ namespace ScontriniWebApp.Models.Services.Infrastructure
                     .IsUnique();
 
                 entity.Property(e => e.IdReceiptTemplate)
+                    .HasConversion<long>()
                     .HasColumnName("idReceiptTemplate")
                     .ValueGeneratedNever();
 
@@ -64,6 +65,7 @@ namespace ScontriniWebApp.Models.Services.Infrastructure
                     .IsUnique();
 
                 entity.Property(e => e.IdReceipt)
+                    .HasConversion<long>()
                     .HasColumnName("idReceipt")
                     .ValueGeneratedNever();
 
@@ -120,17 +122,29 @@ namespace ScontriniWebApp.Models.Services.Infrastructure
                     .IsUnique();
 
                 entity.Property(e => e.IdStoreItem)
+                    .HasConversion<long>()
                     .HasColumnName("idStoreItem")
                     .ValueGeneratedNever();
 
-                entity.OwnsOne(e => e.Price, builder =>
+                /* entity.OwnsOne(e => e.Price, builder =>
                 {
                     builder.Property(money => money.Amount)
                         .HasColumnName("amount");
                     builder.Property(money => money.Currency)
                         .HasConversion<string>()
                         .HasColumnName("currency");
-                });
+                }); */
+
+                entity.Property(e => e.Amount)
+                    .HasColumnName("amount")
+                    .HasColumnType("DECIMAL(5 , 2)")
+                    .HasDefaultValueSql("0");
+
+                entity.Property(e => e.Currency)
+                    .HasConversion<string>()
+                    .HasColumnName("currency")
+                    .HasColumnType("VARCHAR(50)")
+                    .HasDefaultValueSql("'EUR'");
 
                 entity.Property(e => e.IdReceipt)
                     .HasColumnName("idReceipt")
@@ -152,6 +166,7 @@ namespace ScontriniWebApp.Models.Services.Infrastructure
                 entity.ToTable("TRANS_METHODS");
 
                 entity.Property(e => e.IdTransMethod)
+                    .HasConversion<long>()
                     .HasColumnName("idTransMethod")
                     .HasColumnType("INT")
                     .ValueGeneratedNever();

@@ -11,11 +11,11 @@ namespace ScontriniWebApp.Models.Entities
             StoreItems = new HashSet<EStoreItem>();
         }
 
-        public long IdReceipt { get; set; }
-        public long? IdTransactionMethod { get; set; }
-        public long? IdReceiptTemplate { get; set; }
+        public int IdReceipt { get; set; }
+        public int? IdTransactionMethod { get; set; }
+        public int? IdReceiptTemplate { get; set; }
         public string Location { get; set; }
-        public DateTime FullDate { get; set; }
+        public string FullDate { get; set; }
         public Money Price { get; set; }
         public string OrigImagePath { get; set; }
         public string ElabImagePath { get; set; }

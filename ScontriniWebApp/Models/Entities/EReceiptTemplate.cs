@@ -10,7 +10,7 @@ namespace ScontriniWebApp.Models.Entities
             Receipts = new HashSet<EReceipt>();
         }
 
-        public long IdReceiptTemplate { get; set; }
+        public int IdReceiptTemplate { get; set; }
         public string TemplateImagePath { get; set; }
         public string Name { get; set; }
 

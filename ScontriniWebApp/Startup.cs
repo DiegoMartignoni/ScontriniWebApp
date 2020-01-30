@@ -26,8 +26,12 @@ namespace ScontriniWebApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddTransient<IReceiptService, AdoNetReceiptService>();
+            //services.AddTransient<IReceiptService, AdoNetReceiptService>();
+            services.AddTransient<IReceiptService, EfCoreReceiptService>();
             services.AddTransient<IDatabaseManager, SqliteDatabaseManager>();
+
+            //services.AddScoped<ScontriniWebAppDbContext>();
+            services.AddDbContext<ScontriniWebAppDbContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
