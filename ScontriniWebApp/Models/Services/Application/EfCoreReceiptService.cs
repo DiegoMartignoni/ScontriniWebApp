@@ -19,7 +19,7 @@ namespace ScontriniWebApp.Models.Services.Application
         }
         public Task<ReceiptDetailViewModel> GetReceiptAsync(int id)
         {
-            Task<ReceiptDetailViewModel> receipt = dbContext.Receipts
+            IQueryable<ReceiptDetailViewModel> query = dbContext.Receipts
                 .Where(receiptDetail => receiptDetail.IdReceipt == id)
                 .Select(receiptDetail => new ReceiptDetailViewModel
                 {
@@ -49,16 +49,16 @@ namespace ScontriniWebApp.Models.Services.Application
                         Currency = item.Currency,
                         Name = item.Name
                     }).ToList()
-                })
-                .AsNoTracking()
-                .SingleAsync(); ;
+                });
+
+            Task<ReceiptDetailViewModel> receipt = query.AsNoTracking().SingleAsync();
 
             return receipt;
         }
 
         public Task<List<ReceiptViewModel>> GetReceiptsAsync()
         {
-            Task<List<ReceiptViewModel>> receipts = dbContext.Receipts.Select(receipt =>
+            IQueryable<ReceiptViewModel> query = dbContext.Receipts.Select(receipt =>
             new ReceiptViewModel 
             { 
                 Id = receipt.IdReceipt,
@@ -79,10 +79,10 @@ namespace ScontriniWebApp.Models.Services.Application
                     Name = item.Name
                 }).ToList()
 
-            })
-            .AsNoTracking()
-            .ToListAsync();
+            });
 
+            Task<List<ReceiptViewModel>> receipts = query.AsNoTracking().ToListAsync();
+            
             return receipts;
 
         }
