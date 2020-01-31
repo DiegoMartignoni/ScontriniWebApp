@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -31,7 +32,11 @@ namespace ScontriniWebApp
             services.AddTransient<IDatabaseManager, SqliteDatabaseManager>();
 
             //services.AddScoped<ScontriniWebAppDbContext>();
-            services.AddDbContext<ScontriniWebAppDbContext>();
+            services.AddDbContextPool<ScontriniWebAppDbContext>(optionsBuilder =>
+            {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+                optionsBuilder.UseSqlite("Data Source=Data/ScontriniWebApp.db");
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

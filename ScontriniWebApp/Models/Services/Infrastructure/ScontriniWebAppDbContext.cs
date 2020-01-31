@@ -7,10 +7,6 @@ namespace ScontriniWebApp.Models.Services.Infrastructure
 {
     public partial class ScontriniWebAppDbContext : DbContext
     {
-        public ScontriniWebAppDbContext()
-        {
-        }
-
         public ScontriniWebAppDbContext(DbContextOptions<ScontriniWebAppDbContext> options)
             : base(options)
         {
@@ -20,15 +16,6 @@ namespace ScontriniWebApp.Models.Services.Infrastructure
         public virtual DbSet<EReceipt> Receipts { get; set; }
         public virtual DbSet<EStoreItem> StoreItems { get; set; }
         public virtual DbSet<ETransMethod> TransMethods { get; set; }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlite("Data Source=Data/ScontriniWebApp.db");
-            }
-        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -125,15 +112,6 @@ namespace ScontriniWebApp.Models.Services.Infrastructure
                     .HasConversion<long>()
                     .HasColumnName("idStoreItem")
                     .ValueGeneratedNever();
-
-                /* entity.OwnsOne(e => e.Price, builder =>
-                {
-                    builder.Property(money => money.Amount)
-                        .HasColumnName("amount");
-                    builder.Property(money => money.Currency)
-                        .HasConversion<string>()
-                        .HasColumnName("currency");
-                }); */
 
                 entity.Property(e => e.Amount)
                     .HasColumnName("amount")
