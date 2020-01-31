@@ -23,13 +23,13 @@
                             @Model.Location
                         </span>
                         <div class="container mb-4 text-secondary">
-                            <dv class="row font-weight-bolder d-flex justify-content-end">EUR</dv>
+                            <dv class="row font-weight-bolder d-flex justify-content-end border-bottom border-secondary">EUR</dv>
 
                             @foreach (var item in @Model.StoreItems)
                             {
-                                <div class="row d-flex justify-content-between">
-                                    <p class="mb-0">@item.Name</p>
-                                    <p class="mb-0">@item.ToString()</p>
+                                <div class="row d-flex justify-content-between border-bottom">
+                                    <p class="p-0 mb-0 col-7 text-left">@item.Name</p>
+                                    <p class="p-0 mb-0 col-5 text-right">@item.ToString()</p>
                                 </div>
                             }
                         </div>
