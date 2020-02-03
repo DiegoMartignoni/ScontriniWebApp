@@ -51,7 +51,8 @@ namespace ScontriniWebApp
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                app.UseExceptionHandler("/Error");
+                //app.UseDeveloperExceptionPage();
                 app.UseBrowserLink();
             }
             else

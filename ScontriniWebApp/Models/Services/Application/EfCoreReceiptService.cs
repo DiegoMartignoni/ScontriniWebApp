@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using ScontriniWebApp.Models.Exceptions;
 using ScontriniWebApp.Models.Services.Infrastructure;
 using ScontriniWebApp.Models.ValueTypes;
 using ScontriniWebApp.Models.ViewModels;
@@ -58,6 +59,12 @@ namespace ScontriniWebApp.Models.Services.Application
                 });
 
             Task<ReceiptDetailViewModel> receipt = query.AsNoTracking().SingleAsync();
+
+            if (receipt.IsFaulted)
+            {
+                logger.LogWarning("Receipt {id} not found.", id);
+                throw new ReceiptNotFoundException(id);
+            }
 
             return receipt;
         }

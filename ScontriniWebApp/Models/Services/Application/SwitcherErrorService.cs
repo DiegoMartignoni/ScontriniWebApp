@@ -1,4 +1,5 @@
-﻿using ScontriniWebApp.Models.ViewModels;
+﻿using ScontriniWebApp.Models.Exceptions;
+using ScontriniWebApp.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace ScontriniWebApp.Models.Services.Application
         {
             switch (error)
             {
-                case InvalidOperationException _:
+                case ReceiptNotFoundException _:
                     ErrorViewModel errorViewModel = new ErrorViewModel
                     {
                         Title = "Error - Not Found",
