@@ -9,6 +9,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
+using ScontriniWebApp.Models.Options;
 using ScontriniWebApp.Models.Services.Application;
 using ScontriniWebApp.Models.Services.Infrastructure;
 
@@ -35,9 +37,12 @@ namespace ScontriniWebApp
             //services.AddScoped<ScontriniWebAppDbContext>();
             services.AddDbContextPool<ScontriniWebAppDbContext>(optionsBuilder =>
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlite("Data Source=Data/ScontriniWebApp.db");
+                optionsBuilder.UseSqlite(Configuration.GetConnectionString("Default"));
             });
+
+            //----------- Options
+            services.Configure<ReceiptsOptions>(Configuration.GetSection("Receipts"));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
