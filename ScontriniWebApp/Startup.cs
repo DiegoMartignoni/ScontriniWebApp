@@ -34,6 +34,7 @@ namespace ScontriniWebApp
             services.AddTransient<IReceiptService, EfCoreReceiptService>();
             services.AddTransient<IErrorService, SwitcherErrorService>();
             services.AddTransient<IDatabaseManager, SqliteDatabaseManager>();
+            services.AddTransient<IChachedReceiptService, MemoryCachedReceiptService>();
 
             //services.AddScoped<ScontriniWebAppDbContext>();
             services.AddDbContextPool<ScontriniWebAppDbContext>(optionsBuilder =>
@@ -43,6 +44,7 @@ namespace ScontriniWebApp
 
             //----------- Options
             services.Configure<ReceiptsOptions>(Configuration.GetSection("Receipts"));
+            services.Configure<CacheOptions>(Configuration.GetSection("Cache"));
 
         }
 
