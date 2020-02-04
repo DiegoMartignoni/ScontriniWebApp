@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,6 +29,13 @@ namespace ScontriniWebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddResponseCaching();
+            services.AddMvc(options =>
+            {
+                CacheProfile homeProfile = new CacheProfile();
+                Configuration.Bind("ResponseCache:Home", homeProfile);
+                options.CacheProfiles.Add("Home", homeProfile);
+            });
             services.AddRazorPages().AddRazorRuntimeCompilation();
             services.AddControllersWithViews();
             //services.AddTransient<IReceiptService, AdoNetReceiptService>();
@@ -53,8 +61,7 @@ namespace ScontriniWebApp
         {
             if (env.IsDevelopment())
             {
-                app.UseExceptionHandler("/Error");
-                //app.UseDeveloperExceptionPage();
+                app.UseDeveloperExceptionPage();
                 app.UseBrowserLink();
             }
             else
@@ -70,6 +77,7 @@ namespace ScontriniWebApp
 
             app.UseAuthorization();
 
+            app.UseResponseCaching();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
