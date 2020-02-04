@@ -12,7 +12,7 @@ namespace ScontriniWebApp.Controllers
     {
         private readonly IReceiptService receiptService;
 
-        public ReceiptController(IReceiptService receiptService)
+        public ReceiptController(IChachedReceiptService receiptService)
         {
             this.receiptService = receiptService;
         }

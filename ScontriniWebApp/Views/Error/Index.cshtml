@@ -1,0 +1,17 @@
+﻿@model ErrorViewModel
+@{
+    ViewData["Title"] = $"Oops! {Model.Title}";
+}
+    <div class="card text-white bg-danger mb-3">
+        <div class="card-header">@Model.Title</div>
+        <div class="card-body container text-center">
+            <h1 class="card-title d-flex justify-content-center align-items-center"><img class="mr-2" src="~/media/exclamation-circle-solid-white.svg" height="50" /> Oops!</h1>
+            <h5 class="card-text">@Model.Description</h5>
+            <div class="card-body">
+                <a class="btn btn-light text-danger border-danger" asp-area="" asp-controller="Home" asp-action="Index">Torna alla home</a>
+            </div>
+        </div>
+        <div class="card-footer">
+            <small>Status Code: @Model.StatusCode</small>
+        </div>
+    </div>

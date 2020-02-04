@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using ScontriniWebApp.Models.Exceptions;
 using ScontriniWebApp.Models.Services.Infrastructure;
 using ScontriniWebApp.Models.ValueTypes;
 using ScontriniWebApp.Models.ViewModels;
@@ -11,14 +13,19 @@ namespace ScontriniWebApp.Models.Services.Application
 {
     public class EfCoreReceiptService : IReceiptService
     {
+        private readonly ILogger<EfCoreReceiptService> logger;
         private readonly ScontriniWebAppDbContext dbContext;
 
-        public EfCoreReceiptService(ScontriniWebAppDbContext dbContext)
+        public EfCoreReceiptService(ILogger<EfCoreReceiptService> logger, ScontriniWebAppDbContext dbContext)
         {
+            this.logger = logger;
             this.dbContext = dbContext;
         }
         public Task<ReceiptDetailViewModel> GetReceiptAsync(int id)
         {
+
+            logger.LogInformation("Receipt {id} requested.", id);
+
             IQueryable<ReceiptDetailViewModel> query = dbContext.Receipts
                 .Where(receiptDetail => receiptDetail.IdReceipt == id)
                 .Select(receiptDetail => new ReceiptDetailViewModel
@@ -52,6 +59,12 @@ namespace ScontriniWebApp.Models.Services.Application
                 });
 
             Task<ReceiptDetailViewModel> receipt = query.AsNoTracking().SingleAsync();
+
+            if (receipt.IsFaulted)
+            {
+                logger.LogWarning("Receipt {id} not found.", id);
+                throw new ReceiptNotFoundException(id);
+            }
 
             return receipt;
         }
