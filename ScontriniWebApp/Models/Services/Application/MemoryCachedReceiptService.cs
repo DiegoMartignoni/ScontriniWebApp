@@ -26,7 +26,8 @@ namespace ScontriniWebApp.Models.Services.Application
         {
             return memoryCache.GetOrCreateAsync($"Receipt{id}", cacheEntry =>
             {
-                cacheEntry.SetAbsoluteExpiration(TimeSpan.FromSeconds(optionsMonitor.CurrentValue.Expiration));
+                cacheEntry.SetSize(1);
+                cacheEntry.SetAbsoluteExpiration(TimeSpan.FromSeconds(optionsMonitor.CurrentValue.ExpirationInSeconds));
                 return receiptService.GetReceiptAsync(id);
             });
         }
@@ -35,7 +36,8 @@ namespace ScontriniWebApp.Models.Services.Application
         {
             return memoryCache.GetOrCreateAsync($"Receipt", cacheEntry =>
             {
-                cacheEntry.SetAbsoluteExpiration(TimeSpan.FromSeconds(optionsMonitor.CurrentValue.Expiration));
+                cacheEntry.SetSize(1);
+                cacheEntry.SetAbsoluteExpiration(TimeSpan.FromSeconds(optionsMonitor.CurrentValue.ExpirationInSeconds));
                 return receiptService.GetReceiptsAsync();
             });
         }
