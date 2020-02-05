@@ -7,7 +7,118 @@
     <div class="text-center">
         <h1 class="display-4 mb-4">Lista Scontrini</h1>
 
-        <div class="container">
+        <div class="accordion" id="accordionFiltri">
+            <div class="card bg-light mb-4 shadow-sm">
+                <div class="card-header">
+                    <div class="row">
+                        <form class="input-group col-md-6 col-10 mb-2">
+                            <input class="form-control" type="search" placeholder="Cerca" aria-label="Search">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-primary" type="submit">Cerca</button>
+                            </div>
+                        </form>
+                        <div class="col-md-6 col-2 d-flex justify-content-end mb-2">
+                            <button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#collapseFiltri" aria-expanded="true" aria-controls="collapseFiltri">Filtri</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="collapseFiltri" class="collapse" aria-labelledby="headingOne" data-parent="#accordionFiltri">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-3 col-md-4 text-left mb-4">
+                                <h6>Metodo di Pagamento</h6>
+                                <div class="custom-control custom-switch d-flex justify-content-start">
+                                    <input type="checkbox" class="custom-control-input" id="csContanti" checked>
+                                    <label class="custom-control-label" for="csContanti">Contanti</label>
+                                </div>
+                                <div class="custom-control custom-switch d-flex justify-content-start">
+                                    <input type="checkbox" class="custom-control-input" id="csBancomat" checked>
+                                    <label class="custom-control-label" for="csBancomat">Bancomat</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-5 col-md-8 text-left mb-4">
+                                <h6>Soldi Spesi</h6>
+                                <div class="mb-2 d-flex flex-column">
+                                    <small class="font-weight-bold mb-1">Spesa Minima</small>
+                                    <div class="d-flex justify-content-between">
+                                        <small class="badge badge-dark">0,00</small>
+                                        <small class="badge badge-primary">MAX</small>
+                                    </div>
+                                    <input type="range" class="custom-range mb-2" min="0" max="5" value="0" id="customRange">
+                                    <small class="text-muted">Attenzione: è la <strong>spesa minima</strong> a definire il valore di partenza per la ricerca. Se viene settata a <spam class="badge badge-primary">MAX</spam> il valore della <strong>spesa massima</strong> risulterà irrilevante.</small>
+                                </div>
+                                <div class="mb-2">
+                                    <small class="font-weight-bold mb-1">Spesa Massima</small>
+                                    <div class="d-flex justify-content-between">
+                                        <small class="badge badge-primary">MIN</small>
+                                        <small class="badge badge-dark">109,00</small>
+                                    </div>
+                                    <input type="range" class="custom-range" min="0" max="5" value="5" id="customRange">
+                                </div>
+                            </div>
+                            <div class="col-lg-4 text-left mb-4">
+                                <h6>Anno e mese</h6>
+                                <div class="mb-2">
+                                    <small class="font-weight-bold">Anno</small>
+                                    <div class="btn-group-toggle d-flex flex-wrap" data-toggle="buttons">
+                                        <small class="m-1 btn btn-outline-primary btn-sm active">
+                                            <input type="radio" id="a2020" name="anno" checked> 2020
+                                        </small>
+                                        <small class="m-1 btn btn-outline-primary btn-sm">
+                                            <input type="radio" id="a2019" name="anno"> 2019
+                                        </small>
+                                        <small class="m-1 btn btn-outline-primary btn-sm">
+                                            <input type="radio" id="a2018" name="anno"> 2018
+                                        </small>
+                                    </div>
+                                </div>
+                                <div class="mb-2">
+                                    <small class="font-weight-bold">Mese</small>
+                                    <div class="btn-group-toggle d-flex flex-wrap" data-toggle="buttons">
+                                        <small class="m-1 btn btn-outline-primary btn-sm active">
+                                            <input type="radio" id="mese1" name="mese" checked> Gennaio
+                                        </small>
+                                        <small class="m-1 btn btn-outline-primary btn-sm">
+                                            <input type="radio" id="mese2" name="mese"> Febbraio
+                                        </small>
+                                        <small class="m-1 btn btn-outline-primary btn-sm">
+                                            <input type="radio" id="mese3" name="mese"> Marzo
+                                        </small>
+                                        <small class="m-1 btn btn-outline-primary btn-sm">
+                                            <input type="radio" id="mese4" name="mese"> Aprile
+                                        </small>
+                                        <small class="m-1 btn btn-outline-primary btn-sm">
+                                            <input type="radio" id="mese5" name="mese"> Maggio
+                                        </small>
+                                        <small class="m-1 btn btn-outline-primary btn-sm">
+                                            <input type="radio" id="mese6" name="mese"> Giugno
+                                        </small>
+                                        <small class="m-1 btn btn-outline-primary btn-sm">
+                                            <input type="radio" id="mese7" name="mese"> Luglio
+                                        </small>
+                                        <small class="m-1 btn btn-outline-primary btn-sm">
+                                            <input type="radio" id="mese8" name="mese"> Agosto
+                                        </small>
+                                        <small class="m-1 btn btn-outline-primary btn-sm">
+                                            <input type="radio" id="mese9" name="mese"> Settembre
+                                        </small>
+                                        <small class="m-1 btn btn-outline-primary btn-sm">
+                                            <input type="radio" id="mese10" name="mese"> Ottobre
+                                        </small>
+                                        <small class="m-1 btn btn-outline-primary btn-sm">
+                                            <input type="radio" id="mese11" name="mese"> Novembre
+                                        </small>
+                                        <small class="m-1 btn btn-outline-primary btn-sm">
+                                            <input type="radio" id="mese12" name="mese"> Dicembre
+                                        </small>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="row">
                 @foreach (ReceiptViewModel receipt in Model)
                 {
@@ -45,11 +156,11 @@
                                     }
 
                                 </div>
-                                
+
                                 <div class="d-flex flex-wrap">
                                     <div class="pr-2 pb-2">
                                         <a asp-route-id="@receipt.Id" asp-controller="Receipt" asp-action="Detail" class="btn btn-primary">
-                                            <img src="~/media/info-circle-solid-white.svg" alt="dettaglio" width="20" height="20"/>
+                                            <img src="~/media/info-circle-solid-white.svg" alt="dettaglio" width="20" height="20" />
                                         </a>
                                     </div>
                                     <div class="pr-2 pb-2">
@@ -58,7 +169,7 @@
                                         </a>
                                     </div>
                                     <div class="pr-2 pb-2">
-                                        <a href="#"  class="btn btn-danger">
+                                        <a href="#" class="btn btn-danger">
                                             <img src="~/media/trash-solid-white.svg" alt="dettaglio" width="20" height="20" />
                                         </a>
                                     </div>
