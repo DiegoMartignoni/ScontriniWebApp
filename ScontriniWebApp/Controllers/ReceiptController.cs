@@ -23,12 +23,15 @@ namespace ScontriniWebApp.Controllers
 
         public async Task<IActionResult> List()
         {
+            ViewData["Title"] = "Lista Scontrini";
             List<ReceiptViewModel> receipts = await receiptService.GetReceiptsAsync();
             return View(receipts);
         }
 
         public async Task<IActionResult> Detail(int id)
         {
+            ViewData["ComingFrom"] = "Lista Scontrini";
+            ViewData["Title"] = "Dettaglio Scontrino";
             ReceiptDetailViewModel receipt = await receiptService.GetReceiptAsync(id);
             return View(receipt);
         }
