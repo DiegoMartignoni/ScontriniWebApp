@@ -4,7 +4,8 @@
 
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb bg-white font-weight-bolder">
-                <li class="breadcrumb-item"><a asp-area="" asp-controller="Receipt" asp-action="List">@ViewData["ComingFrom"]</a></li>
+                <li class="breadcrumb-item"><a asp-area="" asp-controller="Home" asp-action="Index">@ViewData["ComingFrom1"]</a></li>
+                <li class="breadcrumb-item"><a asp-area="" asp-controller="Receipt" asp-action="List">@ViewData["ComingFrom2"]</a></li>
                 <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
             </ol>
         </nav>
@@ -12,10 +13,10 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-4 col-md-6">
-                    <div class="card text-left bg-white mb-4 shadow-sm">
-                        <div class="card-header">
+                    <div class="card text-left bg-white border-0 mb-4 shadow-lg">
+                        <div class="card-header bg-white box-shadow">
                             <span class="d-flex align-items-center">
-                                <img class="p-2 p-md-1" src="~/media/@Model.TransactionMethod.ImagePath" width="30" height="30" />
+                                <img class="pr-3" src="~/media/@Model.TransactionMethod.ImagePath" height="20" />
                                 @Model.TransactionMethod.PaymentMethod
                             </span>
                         </div>
@@ -37,7 +38,7 @@
                                 }
                             </div>
                         </div>
-                        <div class="card-footer d-flex justify-content-between">
+                        <div class="card-footer bg-white border-0 d-flex justify-content-between">
                             <small>@Model.DateTime.Day-@Model.DateTime.Month-@Model.DateTime.Year</small>
                             <small>@Model.DateTime.Hour:@Model.DateTime.Minute</small>
                         </div>
@@ -46,7 +47,7 @@
                 <div class="col-lg-8 col-md-6">
                     <div class="container">
                         <div class="row">
-                            <div class="col-auto col-lg-6 card bg-light p-0 mb-4 shadow-sm">
+                            <div class="col-auto col-lg-6 card bg-white border-0 p-0 mb-4 shadow">
                                 <div class="row no-gutters">
                                     <div class="col-4 d-flex align-items-center">
                                         <img src="~/media/@Model.ReceiptTemplate.ImagePath" class="card-img rounded-left" alt="...">
@@ -61,7 +62,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-12 card mb-4 shadow-sm">
+                            <div class="col-12 card bg-white border-0 mb-4 shadow">
                                 <div class="card-body">
                                     <h5 class="card-title">Originale</h5>
                                     <p class="card-text">Carica l'immagine originale dello scontrino. Assicurati che disponga della giusta qualità.</p>
@@ -75,7 +76,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-12 card mb-4 shadow-sm">
+                            <div class="col-12 card bg-white border-0 mb-4 shadow">
                                 <div class="card-body">
                                     <h5 class="card-title">Bianco e nero</h5>
                                     <p class="card-text">Carica l'immagine originale dello scontrino. Assicurati che disponga della giusta qualità.</p>
