@@ -63,6 +63,7 @@ namespace ScontriniWebApp.Models.Services.Application
             if (receipt.IsFaulted)
             {
                 logger.LogWarning("Receipt {id} not found.", id);
+                
                 throw new ReceiptNotFoundException(id);
             }
 
@@ -98,6 +99,73 @@ namespace ScontriniWebApp.Models.Services.Application
             
             return receipts;
 
+        }
+
+       public SearchViewModel GetReceiptsBySearch(string query)
+        {
+            IQueryable<ReceiptViewModel> locationFiledQuery = dbContext.Receipts
+                            .Where(receipt => receipt.Location.ToLower().Contains(query.ToLower()))
+                            .Select(receipt => new ReceiptViewModel
+                            {
+                                Id = receipt.IdReceipt,
+                                TransactionMethod = dbContext.TransMethods
+                                    .Where(transactionMethod => transactionMethod.IdTransMethod == receipt.IdTransactionMethod)
+                                    .Select(method => new TransactionMethods
+                                    {
+                                        ImagePath = method.TransImagePath,
+                                        PaymentMethod = method.PaymentMethod
+                                    }).Single(),
+                                Location = receipt.Location,
+                                DateTime = Convert.ToDateTime(receipt.FullDate),
+                                Price = receipt.Price,
+                                StoreItems = receipt.StoreItems.Select(item => new StoreItem
+                                {
+                                    Amount = item.Amount,
+                                    Currency = item.Currency,
+                                    Name = item.Name
+                                }).ToList()
+
+                            });
+
+            IQueryable<ReceiptViewModel> itemsFieldQuery = dbContext.Receipts
+                            .Where(receipt => receipt.StoreItems
+                                .Select(item => new StoreItem
+                                {
+                                    Name = item.Name
+                                }).Single().Name.ToLower().Contains(query.ToLower()))
+                            .Select(receipt => new ReceiptViewModel
+                            {
+                                Id = receipt.IdReceipt,
+                                TransactionMethod = dbContext.TransMethods
+                                    .Where(transactionMethod => transactionMethod.IdTransMethod == receipt.IdTransactionMethod)
+                                    .Select(method => new TransactionMethods
+                                    {
+                                        ImagePath = method.TransImagePath,
+                                        PaymentMethod = method.PaymentMethod
+                                    }).Single(),
+                                Location = receipt.Location,
+                                DateTime = Convert.ToDateTime(receipt.FullDate),
+                                Price = receipt.Price,
+                                StoreItems = receipt.StoreItems
+                                .Select(item => new StoreItem
+                                {
+                                    Amount = item.Amount,
+                                    Currency = item.Currency,
+                                    Name = item.Name
+                                }).ToList()
+                            });
+
+            Task < List<ReceiptViewModel>> locationsSearched = locationFiledQuery.AsNoTracking().ToListAsync();
+            Task<List<ReceiptViewModel>> itemsSearched = itemsFieldQuery.AsNoTracking().ToListAsync();
+            SearchViewModel searchQuery = new SearchViewModel
+            {
+                Query = query,
+                LocationsFoundedAsync = locationsSearched,
+                ItemsFoundedAsync = itemsSearched,
+                ResultCounter = locationFiledQuery.Count() + itemsFieldQuery.Count()
+            };
+
+            return searchQuery;
         }
     }
 }

@@ -10,5 +10,7 @@ namespace ScontriniWebApp.Models.Services.Application
         Task<List<ReceiptViewModel>> GetReceiptsAsync();
 
         Task<ReceiptDetailViewModel> GetReceiptAsync(int id);
+
+        SearchViewModel GetReceiptsBySearch(string query);
     }
 }

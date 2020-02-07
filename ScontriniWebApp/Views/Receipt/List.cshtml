@@ -137,70 +137,83 @@
                         </form>
                     </div>
                 </div>
-                <div class="row">
-                    @foreach (ReceiptViewModel receipt in Model)
-                    {
-                        <div class="col-md-4">
-                            <div class="card bg-white border-0 text-left bg-white mb-4 shadow-lg">
-                                <div class="card-header bg-white card-header box-shadow">
-                                    <span class="d-flex align-items-center">
-                                        <img class="pr-3" src="~/media/@receipt.TransactionMethod.ImagePath" height="20" />
-                                        @receipt.TransactionMethod.PaymentMethod
-                                    </span>
-                                </div>
-                                <div class="card-body">
-                                    <h5 class="card-title">@receipt.Price.ToString()</h5>
-                                    <button class="p-2 d-flex align-items-center btn btn-light">
-                                        <img class="pr-2" src="~/media/map-marker-alt-solid.svg" alt="Map Location" width="20" />
-                                        @receipt.Location
-                                    </button>
-                                    <div class="container mb-4 text-secondary">
-                                        <dv class="row font-weight-bolder d-flex justify-content-end border-bottom border-secondary">EUR</dv>
-                                        @foreach (var item in (@receipt.StoreItems.Count() > 4 ? receipt.StoreItems.GetRange(0, 4) : receipt.StoreItems))
-                                        {
-                                            <div class="row d-flex justify-content-between border-bottom">
-                                                <p class="p-0 mb-0 col-7 text-left">@item.Name</p>
-                                                <p class="p-0 mb-0 col-5 text-right">@item.ToString()</p>
-                                            </div>
-                                        }
-                                        @if (@receipt.StoreItems.Count() > 4)
-                                        {
-                                            <div class="row d-flex justify-content-center">
-                                                <p class="mb-0 font-weight-bolder">...</p>
-                                            </div>
-                                            <div class="row d-flex justify-content-center">
-                                                <small class="mb-0 font-weight-bolder">@receipt.StoreItems.Count() elementi totali</small>
-                                            </div>
-                                        }
+            </div>
+            @if (Model == null)
+            {
+                <div class="container">
+                    <div class="p-4 container-fluid d-flex justify-content-center align-items-center">
+                        <img src="~/media/sad-tear-solid-50.svg" alt="empty" class="pr-4" height="45" />
+                        <h2 class="text-black-50">Nessun risultato</h2>
+                    </div>
+                </div>
+            }
+            else
+            {
+            <div class="row">
+                @foreach (ReceiptViewModel receipt in Model)
+                {
+                    <div class="col-md-4">
+                        <div class="card bg-white border-0 text-left bg-white mb-4 shadow">
+                            <div class="card-header bg-white card-header box-shadow">
+                                <span class="d-flex align-items-center">
+                                    <img class="pr-3" src="~/media/@receipt.TransactionMethod.ImagePath" height="20" />
+                                    @receipt.TransactionMethod.PaymentMethod
+                                </span>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">@receipt.Price.ToString()</h5>
+                                <button class="p-2 d-flex align-items-center btn btn-light">
+                                    <img class="pr-2" src="~/media/map-marker-alt-solid.svg" alt="Map Location" width="20" />
+                                    @receipt.Location
+                                </button>
+                                <div class="container mb-4 text-secondary">
+                                    <dv class="row font-weight-bolder d-flex justify-content-end border-bottom border-secondary">EUR</dv>
+                                    @foreach (var item in (@receipt.StoreItems.Count() > 4 ? receipt.StoreItems.GetRange(0, 4) : receipt.StoreItems))
+                                    {
+                                        <div class="row d-flex justify-content-between border-bottom">
+                                            <p class="p-0 mb-0 col-7 text-left">@item.Name</p>
+                                            <p class="p-0 mb-0 col-5 text-right">@item.ToString()</p>
+                                        </div>
+                                    }
+                                    @if (@receipt.StoreItems.Count() > 4)
+                                    {
+                                        <div class="row d-flex justify-content-center">
+                                            <p class="mb-0 font-weight-bolder">...</p>
+                                        </div>
+                                        <div class="row d-flex justify-content-center">
+                                            <small class="mb-0 font-weight-bolder">@receipt.StoreItems.Count() elementi totali</small>
+                                        </div>
+                                    }
 
-                                    </div>
-
-                                    <div class="d-flex flex-wrap">
-                                        <div class="pr-2 pb-2">
-                                            <a asp-route-id="@receipt.Id" asp-controller="Receipt" asp-action="Detail" class="btn btn-primary">
-                                                <img src="~/media/info-circle-solid-white.svg" alt="dettaglio" width="20" height="20" />
-                                            </a>
-                                        </div>
-                                        <div class="pr-2 pb-2">
-                                            <a href="#" class="btn btn-warning">
-                                                <img src="~/media/edit-solid-white.svg" alt="dettaglio" width="20" height="20" />
-                                            </a>
-                                        </div>
-                                        <div class="pr-2 pb-2">
-                                            <a href="#" class="btn btn-danger">
-                                                <img src="~/media/trash-solid-white.svg" alt="dettaglio" width="20" height="20" />
-                                            </a>
-                                        </div>
-                                    </div>
                                 </div>
-                                <div class="card-footer border-0 bg-white d-flex justify-content-between">
-                                    <small>@receipt.DateTime.Day-@receipt.DateTime.Month-@receipt.DateTime.Year</small>
-                                    <small>@receipt.DateTime.Hour:@receipt.DateTime.Minute</small>
+
+                                <div class="d-flex flex-wrap">
+                                    <div class="pr-2 pb-2">
+                                        <a asp-route-id="@receipt.Id" asp-controller="Receipt" asp-action="Detail" class="btn btn-primary">
+                                            <img src="~/media/info-circle-solid-white.svg" alt="dettaglio" width="20" height="20" />
+                                        </a>
+                                    </div>
+                                    <div class="pr-2 pb-2">
+                                        <a href="#" class="btn btn-warning">
+                                            <img src="~/media/edit-solid-white.svg" alt="dettaglio" width="20" height="20" />
+                                        </a>
+                                    </div>
+                                    <div class="pr-2 pb-2">
+                                        <a href="#" class="btn btn-danger">
+                                            <img src="~/media/trash-solid-white.svg" alt="dettaglio" width="20" height="20" />
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
+                            <div class="card-footer border-0 bg-white d-flex justify-content-between">
+                                <small>@receipt.DateTime.Day-@receipt.DateTime.Month-@receipt.DateTime.Year</small>
+                                <small>@receipt.DateTime.Hour:@receipt.DateTime.Minute</small>
+                            </div>
                         </div>
-                    }
-                </div>
+                    </div>
+                }
             </div>
+            }
+            
         </div>
     </div>

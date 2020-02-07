@@ -41,5 +41,15 @@ namespace ScontriniWebApp.Models.Services.Application
                 return receiptService.GetReceiptsAsync();
             });
         }
+
+        public SearchViewModel GetReceiptsBySearch(string query)
+        {
+            return memoryCache.GetOrCreate($"ReceiptsBySearch-{query}", cacheEntry =>
+            {
+                cacheEntry.SetSize(1);
+                cacheEntry.SetAbsoluteExpiration(TimeSpan.FromSeconds(optionsMonitor.CurrentValue.ExpirationInSeconds));
+                return receiptService.GetReceiptsBySearch(query);
+            });
+        }
     }
 }
