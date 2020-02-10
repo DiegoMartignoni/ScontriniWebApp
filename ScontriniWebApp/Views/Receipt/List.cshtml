@@ -18,8 +18,8 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <form class="input-group col-md-6 col-8">
-                                <input class="form-control" type="search" placeholder="Cerca" aria-label="Search">
+                            <form class="input-group col-md-6 col-8" asp-controller="Search" asp-action="Index">
+                                <input class="form-control" type="search" placeholder="Cerca" aria-label="Search" name="query" formmethod="get">
                                 <div class="input-group-append">
                                     <button class="btn btn-primary d-flex align-items-center" type="submit">
                                         <img src="~/media/search-solid-white.svg" alt="search" height="15" />
@@ -51,21 +51,21 @@
                                 <div class="col-lg-5 col-md-8 text-left mb-4">
                                     <h6>Soldi Spesi</h6>
                                     <div class="mb-2 d-flex flex-column">
-                                        <small class="font-weight-bold mb-1">Spesa Minima</small>
+                                        <small class="font-weight-bold mb-2">Spesa Minima</small>
                                         <div class="d-flex justify-content-between">
-                                            <small class="badge badge-dark">0,00</small>
-                                            <small class="badge badge-primary">MAX</small>
+                                            <small class="badge badge-light">0,00</small>
+                                            <small class="badge badge-light">109,00</small>
                                         </div>
                                         <input type="range" class="custom-range mb-2" min="0" max="5" value="0" id="customRange">
-                                        <small class="text-muted">Attenzione: è la <strong>spesa minima</strong> a definire il valore di partenza per la ricerca. Se viene settata a <spam class="badge badge-primary">MAX</spam> il valore della <strong>spesa massima</strong> risulterà irrilevante.</small>
                                     </div>
-                                    <div class="mb-2">
-                                        <small class="font-weight-bold mb-1">Spesa Massima</small>
+                                    <div class="mb-2 d-flex flex-column">
+                                        <small class="font-weight-bold mb-2">Spesa Massima</small>
                                         <div class="d-flex justify-content-between">
                                             <small class="badge badge-primary">MIN</small>
-                                            <small class="badge badge-dark">109,00</small>
+                                            <small class="badge badge-light">109,00</small>
                                         </div>
                                         <input type="range" class="custom-range" min="0" max="5" value="5" id="customRange">
+                                        <small class="text-muted">L'indicatore <spam class="badge badge-primary">MIN</spam> corssisponde al valore indicato nella <strong>spesa massima</strong>.</small>
                                     </div>
                                 </div>
                                 <div class="col-lg-4 text-left mb-4">
@@ -212,6 +212,15 @@
                         </div>
                     </div>
                 }
+            </div>
+            <div class="container d-flex justify-content-center">
+                <nav aria-label="Page navigation">
+                    <ul class="pagination">
+                        <li class="page-item active"><a class="page-link" asp-route-page="1">1</a></li>
+                        <li class="page-item"><a class="page-link" asp-route-page="2">2</a></li>
+                        <li class="page-item"><a class="page-link" asp-route-page="3">3</a></li>
+                    </ul>
+                </nav>
             </div>
             }
             

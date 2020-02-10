@@ -24,7 +24,7 @@ namespace ScontriniWebApp.Models.Services.Application
         }
         public Task<ReceiptDetailViewModel> GetReceiptAsync(int id)
         {
-            return memoryCache.GetOrCreateAsync($"Receipt{id}", cacheEntry =>
+            return memoryCache.GetOrCreateAsync($"Receipt-{id}", cacheEntry =>
             {
                 cacheEntry.SetSize(1);
                 cacheEntry.SetAbsoluteExpiration(TimeSpan.FromSeconds(optionsMonitor.CurrentValue.ExpirationInSeconds));
@@ -32,13 +32,13 @@ namespace ScontriniWebApp.Models.Services.Application
             });
         }
 
-        public Task<List<ReceiptViewModel>> GetReceiptsAsync()
+        public Task<List<ReceiptViewModel>> GetReceiptsAsync(int page)
         {
-            return memoryCache.GetOrCreateAsync($"Receipt", cacheEntry =>
+            return memoryCache.GetOrCreateAsync($"Receipt-{page}", cacheEntry =>
             {
                 cacheEntry.SetSize(1);
                 cacheEntry.SetAbsoluteExpiration(TimeSpan.FromSeconds(optionsMonitor.CurrentValue.ExpirationInSeconds));
-                return receiptService.GetReceiptsAsync();
+                return receiptService.GetReceiptsAsync(page);
             });
         }
 

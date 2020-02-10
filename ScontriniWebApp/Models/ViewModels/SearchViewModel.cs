@@ -15,8 +15,6 @@ namespace ScontriniWebApp.Models.ViewModels
 
         public Task<List<ReceiptViewModel>> ItemsFoundedAsync { get; set; }
 
-        public Task<List<ReceiptViewModel>> TransMethodsFoundedAsync { get; set; }
-
         public string highlightResult(string result)
         {
             int startIndex = result.ToLower().IndexOf(Query.ToLower());

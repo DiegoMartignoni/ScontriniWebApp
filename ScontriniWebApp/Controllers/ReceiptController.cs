@@ -23,11 +23,11 @@ namespace ScontriniWebApp.Controllers
             return View();
         }
 
-        public async Task<IActionResult> List()
+        public async Task<IActionResult> List(int page)
         {
             ViewData["ComingFrom1"] = "Dashboard";
             ViewData["Title"] = "Lista Scontrini";
-            List<ReceiptViewModel> receipts = await receiptService.GetReceiptsAsync();
+            List<ReceiptViewModel> receipts = await receiptService.GetReceiptsAsync(page);
             return View(receipts);
         }
 

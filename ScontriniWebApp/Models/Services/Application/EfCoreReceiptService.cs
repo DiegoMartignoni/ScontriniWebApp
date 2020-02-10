@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using ScontriniWebApp.Models.Exceptions;
+using ScontriniWebApp.Models.Options;
 using ScontriniWebApp.Models.Services.Infrastructure;
 using ScontriniWebApp.Models.ValueTypes;
 using ScontriniWebApp.Models.ViewModels;
@@ -15,11 +17,13 @@ namespace ScontriniWebApp.Models.Services.Application
     {
         private readonly ILogger<EfCoreReceiptService> logger;
         private readonly ScontriniWebAppDbContext dbContext;
+        private readonly IOptionsMonitor<ReceiptsOptions> optionsMonitor;
 
-        public EfCoreReceiptService(ILogger<EfCoreReceiptService> logger, ScontriniWebAppDbContext dbContext)
+        public EfCoreReceiptService(ILogger<EfCoreReceiptService> logger, ScontriniWebAppDbContext dbContext, IOptionsMonitor<ReceiptsOptions> optionsMonitor)
         {
             this.logger = logger;
             this.dbContext = dbContext;
+            this.optionsMonitor = optionsMonitor;
         }
         public Task<ReceiptDetailViewModel> GetReceiptAsync(int id)
         {
@@ -70,8 +74,12 @@ namespace ScontriniWebApp.Models.Services.Application
             return receipt;
         }
 
-        public Task<List<ReceiptViewModel>> GetReceiptsAsync()
+        public Task<List<ReceiptViewModel>> GetReceiptsAsync(int page)
         {
+            page = Math.Max(1, page);
+            int limit = optionsMonitor.CurrentValue.PerPage;
+            int offset = (page - 1) * limit;
+
             IQueryable<ReceiptViewModel> query = dbContext.Receipts.Select(receipt =>
             new ReceiptViewModel 
             { 
@@ -93,7 +101,7 @@ namespace ScontriniWebApp.Models.Services.Application
                     Name = item.Name
                 }).ToList()
 
-            });
+            }).Skip(offset).Take(limit);
 
             Task<List<ReceiptViewModel>> receipts = query.AsNoTracking().ToListAsync();
             
