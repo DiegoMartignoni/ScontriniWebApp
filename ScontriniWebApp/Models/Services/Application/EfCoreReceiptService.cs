@@ -74,42 +74,52 @@ namespace ScontriniWebApp.Models.Services.Application
             return receipt;
         }
 
-        public Task<List<ReceiptViewModel>> GetReceiptsAsync(int page)
+        public Task<List<ReceiptViewModel>> GetReceiptsAsync(int page, List<string> paymentMethods, decimal minValue, decimal maxValue, int year, int month)
         {
+
             page = Math.Max(1, page);
             int limit = optionsMonitor.CurrentValue.PerPage;
             int offset = (page - 1) * limit;
 
-            IQueryable<ReceiptViewModel> query = dbContext.Receipts.Select(receipt =>
-            new ReceiptViewModel 
-            { 
-                Id = receipt.IdReceipt,
-                TransactionMethod = dbContext.TransMethods
-                    .Where(transactionMethod => transactionMethod.IdTransMethod == receipt.IdTransactionMethod)
-                    .Select(method => new TransactionMethods
+            IQueryable<ReceiptViewModel> query = dbContext.Receipts
+                .Where(receipt => receipt.Price.Amount.CompareTo(minValue) >= 0 
+                && receipt.Price.Amount.CompareTo(maxValue) <= 0 
+                && paymentMethods.Contains(dbContext.TransMethods
+                            .Where(transactionMethod => transactionMethod.IdTransMethod == receipt.IdTransactionMethod)
+                            .Select(method => new TransactionMethods
+                            {
+                                PaymentMethod = method.PaymentMethod
+                            }).Single().PaymentMethod.ToLower()))
+                .Select(receipt =>
+                    new ReceiptViewModel
                     {
-                        ImagePath = method.TransImagePath,
-                        PaymentMethod = method.PaymentMethod
-                    }).Single(),
-                Location = receipt.Location,
-                DateTime = Convert.ToDateTime(receipt.FullDate),
-                Price = receipt.Price,
-                StoreItems = receipt.StoreItems.Select(item => new StoreItem
-                {
-                    Amount = item.Amount,
-                    Currency = item.Currency,
-                    Name = item.Name
-                }).ToList()
+                        Id = receipt.IdReceipt,
+                        TransactionMethod = dbContext.TransMethods
+                            .Where(transactionMethod => transactionMethod.IdTransMethod == receipt.IdTransactionMethod)
+                            .Select(method => new TransactionMethods
+                            {
+                                ImagePath = method.TransImagePath,
+                                PaymentMethod = method.PaymentMethod
+                            }).Single(),
+                        Location = receipt.Location,
+                        DateTime = Convert.ToDateTime(receipt.FullDate),
+                        Price = receipt.Price,
+                        StoreItems = receipt.StoreItems.Select(item => new StoreItem
+                        {
+                            Amount = item.Amount,
+                            Currency = item.Currency,
+                            Name = item.Name
+                        }).ToList()
 
-            }).Skip(offset).Take(limit);
+                    }).Skip(offset).Take(limit);
+
 
             Task<List<ReceiptViewModel>> receipts = query.AsNoTracking().ToListAsync();
-            
-            return receipts;
 
+            return receipts;
         }
 
-       public SearchViewModel GetReceiptsBySearch(string query)
+        public SearchViewModel GetReceiptsBySearch(string query)
         {
             IQueryable<ReceiptViewModel> locationFiledQuery = dbContext.Receipts
                             .Where(receipt => receipt.Location.ToLower().Contains(query.ToLower()))
@@ -174,6 +184,36 @@ namespace ScontriniWebApp.Models.Services.Application
             };
 
             return searchQuery;
+        }
+
+        public decimal GetReceiptsMaxValue()
+        {
+            IQueryable<ReceiptViewModel> query = dbContext.Receipts.Select(receipt => new ReceiptViewModel
+            {
+                Price = receipt.Price
+            });
+            List<ReceiptViewModel> receipts = query.AsNoTracking().ToList();
+            return receipts.Select(receipt => receipt.Price.Amount).Max();
+        }
+
+        public List<string> GetReceiptsMethods()
+        {
+            IQueryable<TransactionMethods> query = dbContext.TransMethods.Select(methods => new TransactionMethods
+            {
+                PaymentMethod = methods.PaymentMethod
+            });
+            List<TransactionMethods> methods = query.AsNoTracking().ToList();
+            return methods.Select(method => method.PaymentMethod.ToLower()).ToList();
+        }
+
+        public List<int> GetReceiptsYears()
+        {
+            IQueryable<ReceiptViewModel> query = dbContext.Receipts.Select(receipt => new ReceiptViewModel
+            {
+                DateTime = Convert.ToDateTime(receipt.FullDate)
+            });
+            List<ReceiptViewModel> receipts = query.AsNoTracking().ToList();
+            return receipts.Select(receipt => receipt.DateTime.Year).Distinct().ToList();
         }
     }
 }

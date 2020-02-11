@@ -1,4 +1,4 @@
-﻿@model List<ReceiptViewModel>
+﻿@model ReceiptsViewModel
 
     <div class="text-center">
 
@@ -35,18 +35,18 @@
                         </div>
                     </div>
                     <div id="collapseFiltri" class="collapse" aria-labelledby="headingOne" data-parent="#accordionFiltri">
-                        <form class="card-body">
+                        <form class="card-body" asp-controller="Receipt" asp-action="List">
                             <div class="row">
                                 <div class="col-lg-3 col-md-4 text-left mb-4">
                                     <h6>Metodo di Pagamento</h6>
-                                    <div class="custom-control custom-switch d-flex justify-content-start">
-                                        <input type="checkbox" class="custom-control-input" id="csContanti" checked>
-                                        <label class="custom-control-label" for="csContanti">Contanti</label>
-                                    </div>
-                                    <div class="custom-control custom-switch d-flex justify-content-start">
-                                        <input type="checkbox" class="custom-control-input" id="csBancomat" checked>
-                                        <label class="custom-control-label" for="csBancomat">Bancomat</label>
-                                    </div>
+                                    <input type="checkbox" class="d-none" id="empty" name="paymentMethods" value="empty" checked formmethod="post">
+                                    @foreach (string paymentMethod in Model.Methods)
+                                    {
+                                        <div class="custom-control custom-switch d-flex justify-content-start">
+                                            <input type="checkbox" class="custom-control-input" id="@paymentMethod.ToLower()" name="paymentMethods" value="@paymentMethod.ToLower()" checked formmethod="post">
+                                            <label class="custom-control-label" for="@paymentMethod.ToLower()">@paymentMethod</label>
+                                        </div>
+                                    }
                                 </div>
                                 <div class="col-lg-5 col-md-8 text-left mb-4">
                                     <h6>Soldi Spesi</h6>
@@ -54,17 +54,17 @@
                                         <small class="font-weight-bold mb-2">Spesa Minima</small>
                                         <div class="d-flex justify-content-between">
                                             <small class="badge badge-light">0,00</small>
-                                            <small class="badge badge-light">109,00</small>
+                                            <small class="badge badge-light">@Model.MaxValue</small>
                                         </div>
-                                        <input type="range" class="custom-range mb-2" min="0" max="5" value="0" id="customRange">
+                                        <input type="range" class="custom-range mb-2" min="0" max="5" value="0" name="minValue" formmethod="post">
                                     </div>
                                     <div class="mb-2 d-flex flex-column">
                                         <small class="font-weight-bold mb-2">Spesa Massima</small>
                                         <div class="d-flex justify-content-between">
                                             <small class="badge badge-primary">MIN</small>
-                                            <small class="badge badge-light">109,00</small>
+                                            <small class="badge badge-light">@Model.MaxValue</small>
                                         </div>
-                                        <input type="range" class="custom-range" min="0" max="5" value="5" id="customRange">
+                                        <input type="range" class="custom-range" min="0" max="5" value="5" name="maxValue" formmethod="post">
                                         <small class="text-muted">L'indicatore <spam class="badge badge-primary">MIN</spam> corssisponde al valore indicato nella <strong>spesa massima</strong>.</small>
                                     </div>
                                 </div>
@@ -74,55 +74,28 @@
                                         <small class="font-weight-bold">Anno</small>
                                         <div class="btn-group-toggle d-flex flex-wrap" data-toggle="buttons">
                                             <small class="m-1 btn btn-outline-primary btn-sm active">
-                                                <input type="radio" id="a2020" name="anno" checked> 2020
+                                                <input type="radio" name="year" formmethod="post" value="-1" checked> Tutti
                                             </small>
-                                            <small class="m-1 btn btn-outline-primary btn-sm">
-                                                <input type="radio" id="a2019" name="anno"> 2019
-                                            </small>
-                                            <small class="m-1 btn btn-outline-primary btn-sm">
-                                                <input type="radio" id="a2018" name="anno"> 2018
-                                            </small>
+                                            @foreach (int year in Model.Years)
+                                            {
+                                                <small class="m-1 btn btn-outline-primary btn-sm">
+                                                    <input type="radio" name="year" formmethod="post" value="@year"> @year
+                                                </small>
+                                            }
                                         </div>
                                     </div>
                                     <div class="mb-2">
                                         <small class="font-weight-bold">Mese</small>
                                         <div class="btn-group-toggle d-flex flex-wrap" data-toggle="buttons">
                                             <small class="m-1 btn btn-outline-primary btn-sm active">
-                                                <input type="radio" id="mese1" name="mese" checked> Gennaio
+                                                <input type="radio" name="month" formmethod="post" value="-1" checked> Tutti
                                             </small>
-                                            <small class="m-1 btn btn-outline-primary btn-sm">
-                                                <input type="radio" id="mese2" name="mese"> Febbraio
-                                            </small>
-                                            <small class="m-1 btn btn-outline-primary btn-sm">
-                                                <input type="radio" id="mese3" name="mese"> Marzo
-                                            </small>
-                                            <small class="m-1 btn btn-outline-primary btn-sm">
-                                                <input type="radio" id="mese4" name="mese"> Aprile
-                                            </small>
-                                            <small class="m-1 btn btn-outline-primary btn-sm">
-                                                <input type="radio" id="mese5" name="mese"> Maggio
-                                            </small>
-                                            <small class="m-1 btn btn-outline-primary btn-sm">
-                                                <input type="radio" id="mese6" name="mese"> Giugno
-                                            </small>
-                                            <small class="m-1 btn btn-outline-primary btn-sm">
-                                                <input type="radio" id="mese7" name="mese"> Luglio
-                                            </small>
-                                            <small class="m-1 btn btn-outline-primary btn-sm">
-                                                <input type="radio" id="mese8" name="mese"> Agosto
-                                            </small>
-                                            <small class="m-1 btn btn-outline-primary btn-sm">
-                                                <input type="radio" id="mese9" name="mese"> Settembre
-                                            </small>
-                                            <small class="m-1 btn btn-outline-primary btn-sm">
-                                                <input type="radio" id="mese10" name="mese"> Ottobre
-                                            </small>
-                                            <small class="m-1 btn btn-outline-primary btn-sm">
-                                                <input type="radio" id="mese11" name="mese"> Novembre
-                                            </small>
-                                            <small class="m-1 btn btn-outline-primary btn-sm">
-                                                <input type="radio" id="mese12" name="mese"> Dicembre
-                                            </small>
+                                            @for (int i = 1; i < 13; i++)
+                                            {
+                                                <small class="m-1 btn btn-outline-primary btn-sm ">
+                                                    <input type="radio" value="@i" name="month"> @DateTimeFormatInfo.CurrentInfo.GetMonthName(i).First().ToString().ToUpper()@DateTimeFormatInfo.CurrentInfo.GetMonthName(i).Substring(1)
+                                                </small>
+                                            }
                                         </div>
                                     </div>
 
@@ -138,7 +111,7 @@
                     </div>
                 </div>
             </div>
-            @if (Model == null)
+            @if (Model.Receipts == null)
             {
                 <div class="container">
                     <div class="p-4 container-fluid d-flex justify-content-center align-items-center">
@@ -150,7 +123,7 @@
             else
             {
             <div class="row">
-                @foreach (ReceiptViewModel receipt in Model)
+                @foreach (ReceiptViewModel receipt in Model.Receipts)
                 {
                     <div class="col-md-4">
                         <div class="card bg-white border-0 text-left bg-white mb-4 shadow">
@@ -206,8 +179,8 @@
                                 </div>
                             </div>
                             <div class="card-footer border-0 bg-white d-flex justify-content-between">
-                                <small>@receipt.DateTime.Day-@receipt.DateTime.Month-@receipt.DateTime.Year</small>
-                                <small>@receipt.DateTime.Hour:@receipt.DateTime.Minute</small>
+                                <small>@receipt.DateTime.ToString("dd-MM-yyyy")</small>
+                                <small>@receipt.DateTime.ToString("HH:mm")</small>
                             </div>
                         </div>
                     </div>

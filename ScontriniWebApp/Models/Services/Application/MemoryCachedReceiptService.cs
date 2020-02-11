@@ -32,13 +32,13 @@ namespace ScontriniWebApp.Models.Services.Application
             });
         }
 
-        public Task<List<ReceiptViewModel>> GetReceiptsAsync(int page)
+       public Task<List<ReceiptViewModel>> GetReceiptsAsync(int page, List<string> paymentMethods, decimal minValue, decimal maxValue, int year, int month)
         {
-            return memoryCache.GetOrCreateAsync($"Receipt-{page}", cacheEntry =>
+            return memoryCache.GetOrCreateAsync($"Receipt-{page}-{paymentMethods.GetHashCode()}-{minValue}-{maxValue}-{year}-{month}", cacheEntry =>
             {
                 cacheEntry.SetSize(1);
                 cacheEntry.SetAbsoluteExpiration(TimeSpan.FromSeconds(optionsMonitor.CurrentValue.ExpirationInSeconds));
-                return receiptService.GetReceiptsAsync(page);
+                return receiptService.GetReceiptsAsync(page, paymentMethods, minValue, maxValue, year, month);
             });
         }
 
@@ -49,6 +49,36 @@ namespace ScontriniWebApp.Models.Services.Application
                 cacheEntry.SetSize(1);
                 cacheEntry.SetAbsoluteExpiration(TimeSpan.FromSeconds(optionsMonitor.CurrentValue.ExpirationInSeconds));
                 return receiptService.GetReceiptsBySearch(query);
+            });
+        }
+
+        public decimal GetReceiptsMaxValue()
+        {
+            return memoryCache.GetOrCreate($"MaxValue", cacheEntry =>
+            {
+                cacheEntry.SetSize(1);
+                cacheEntry.SetAbsoluteExpiration(TimeSpan.FromSeconds(optionsMonitor.CurrentValue.ExpirationInSeconds));
+                return receiptService.GetReceiptsMaxValue();
+            });
+        }
+
+        public List<string> GetReceiptsMethods()
+        {
+            return memoryCache.GetOrCreate($"Methods", cacheEntry =>
+            {
+                cacheEntry.SetSize(1);
+                cacheEntry.SetAbsoluteExpiration(TimeSpan.FromSeconds(optionsMonitor.CurrentValue.ExpirationInSeconds));
+                return receiptService.GetReceiptsMethods();
+            });
+        }
+
+        public List<int> GetReceiptsYears()
+        {
+            return memoryCache.GetOrCreate($"Years", cacheEntry =>
+            {
+                cacheEntry.SetSize(1);
+                cacheEntry.SetAbsoluteExpiration(TimeSpan.FromSeconds(optionsMonitor.CurrentValue.ExpirationInSeconds));
+                return receiptService.GetReceiptsYears();
             });
         }
     }

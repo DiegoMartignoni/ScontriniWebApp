@@ -39,8 +39,8 @@
                             </div>
                         </div>
                         <div class="card-footer bg-white border-0 d-flex justify-content-between">
-                            <small>@Model.DateTime.Day-@Model.DateTime.Month-@Model.DateTime.Year</small>
-                            <small>@Model.DateTime.Hour:@Model.DateTime.Minute</small>
+                            <small>@Model.DateTime.ToString("dd-MM-yyyy")</small>
+                            <small>@Model.DateTime.ToString("HH:mm")</small>
                         </div>
                     </div>
                 </div>
