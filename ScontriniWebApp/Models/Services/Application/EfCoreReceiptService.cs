@@ -78,7 +78,6 @@ namespace ScontriniWebApp.Models.Services.Application
         public Task<List<ReceiptViewModel>> GetReceiptsAsync(int page, List<string> paymentMethods, decimal minValue, decimal maxValue, DateTime startDate, DateTime endDate)
         {
 
-            page = Math.Max(1, page);
             int limit = optionsMonitor.CurrentValue.PerPage;
             int offset = (page - 1) * limit;
 
