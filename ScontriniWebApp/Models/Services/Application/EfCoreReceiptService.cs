@@ -44,7 +44,7 @@ namespace ScontriniWebApp.Models.Services.Application
                         PaymentMethod = method.PaymentMethod
                     }).Single(),
                     Location = receiptDetail.Location,
-                    DateTime = Convert.ToDateTime(receiptDetail.FullDate),
+                    DateTime = receiptDetail.FullDate,
                     Price = receiptDetail.Price,
                     ReceiptTemplate = dbContext.ReceiptTemplates
                         .Where(template => template.IdReceiptTemplate == receiptDetail.IdReceiptTemplate)
@@ -89,7 +89,8 @@ namespace ScontriniWebApp.Models.Services.Application
                             .Select(method => new TransactionMethods
                             {
                                 PaymentMethod = method.PaymentMethod
-                            }).Single().PaymentMethod.ToLower()))
+                            }).Single().PaymentMethod.ToLower())
+                && receipt.FullDate > startDate && receipt.FullDate < endDate)
                 .Select(receipt =>
                     new ReceiptViewModel
                     {
@@ -102,7 +103,7 @@ namespace ScontriniWebApp.Models.Services.Application
                                 PaymentMethod = method.PaymentMethod
                             }).Single(),
                         Location = receipt.Location,
-                        DateTime = Convert.ToDateTime(receipt.FullDate),
+                        DateTime = receipt.FullDate,
                         Price = receipt.Price,
                         StoreItems = receipt.StoreItems.Select(item => new StoreItem
                         {
@@ -134,7 +135,7 @@ namespace ScontriniWebApp.Models.Services.Application
                                         PaymentMethod = method.PaymentMethod
                                     }).Single(),
                                 Location = receipt.Location,
-                                DateTime = Convert.ToDateTime(receipt.FullDate),
+                                DateTime = receipt.FullDate,
                                 Price = receipt.Price,
                                 StoreItems = receipt.StoreItems.Select(item => new StoreItem
                                 {
@@ -162,7 +163,7 @@ namespace ScontriniWebApp.Models.Services.Application
                                         PaymentMethod = method.PaymentMethod
                                     }).Single(),
                                 Location = receipt.Location,
-                                DateTime = Convert.ToDateTime(receipt.FullDate),
+                                DateTime = receipt.FullDate,
                                 Price = receipt.Price,
                                 StoreItems = receipt.StoreItems
                                 .Select(item => new StoreItem
@@ -210,7 +211,7 @@ namespace ScontriniWebApp.Models.Services.Application
         {
             IQueryable<ReceiptViewModel> query = dbContext.Receipts.Select(receipt => new ReceiptViewModel
             {
-                DateTime = Convert.ToDateTime(receipt.FullDate)
+                DateTime = receipt.FullDate
             });
             List<ReceiptViewModel> receipts = query.AsNoTracking().ToList();
             return receipts.Select(receipt => receipt.DateTime.Year).Distinct().ToList();

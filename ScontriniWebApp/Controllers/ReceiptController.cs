@@ -36,10 +36,10 @@ namespace ScontriniWebApp.Controllers
             ViewData["ComingFrom1"] = "Dashboard";
             ViewData["Title"] = "Lista Scontrini";
 
-            DateTime startDate = new DateTime(1900, 1, 1);
-            DateTime dateTime = DateTime.Now;
+            //DateTime startDate = new DateTime(1900, 1, 1);
+            //DateTime dateTime = DateTime.Now;
 
-            List<ReceiptViewModel> receipts = await receiptService.GetReceiptsAsync(model.Page, model.PaymentMethods, model.PriceMinValue, model.PriceMaxValue, startDate, dateTime);
+            List<ReceiptViewModel> receipts = await receiptService.GetReceiptsAsync(model.Page, model.PaymentMethods, model.PriceMinValue, model.PriceMaxValue, model.StartDate, model.EndtDate);
             
 
             return View(new ReceiptsViewModel
