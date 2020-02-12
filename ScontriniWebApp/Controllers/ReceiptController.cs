@@ -50,10 +50,19 @@ namespace ScontriniWebApp.Controllers
                     SliderPosition = model.UserMaxValue,
                     SliderMaxValue = ReceiptsPriceMaxValue
                 },
+                YearRadio = new RadioViewComponent
+                {
+                    CurrentlyActive = model.Year,
+                    RadioList = ReceiptsStoredYears
+                },
+                MonthRadio = new RadioViewComponent
+                {
+                    CurrentlyActive = model.Month
+                },
                 FilterYearsStored = ReceiptsStoredYears,
                 FilterPaymentMethods = ReceiptsTransactionMethods,
                 CurrentPage = model.Page
-            });;
+            });
         }
 
         public async Task<IActionResult> Detail(int id)

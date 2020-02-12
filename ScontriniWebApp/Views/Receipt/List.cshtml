@@ -73,13 +73,13 @@
                                     <div class="mb-2">
                                         <small class="font-weight-bold">Anno</small>
                                         <div class="btn-group-toggle d-flex flex-wrap" data-toggle="buttons">
-                                            <small class="m-1 btn btn-outline-primary btn-sm active">
-                                                <input type="radio" name="year" formmethod="post" value="-1" checked> Tutti
+                                            <small class="m-1 btn btn-outline-primary btn-sm @(Model.YearRadio.CurrentlyActive==-1 ? "active" : "")">
+                                                <input type="radio" name="year" formmethod="post" value="-1" @(Model.YearRadio.CurrentlyActive==-1 ? "checked" : "")> Tutti
                                             </small>
-                                            @foreach (int year in Model.FilterYearsStored)
+                                            @foreach (int year in Model.YearRadio.RadioList)
                                             {
-                                                <small class="m-1 btn btn-outline-primary btn-sm">
-                                                    <input type="radio" name="year" formmethod="post" value="@year"> @year
+                                                <small class="m-1 btn btn-outline-primary btn-sm @(Model.YearRadio.CurrentlyActive==year ? "active" : "")">
+                                                    <input type="radio" name="year" formmethod="post" value="@year" @(Model.YearRadio.CurrentlyActive==year ? "checked" : "")> @year
                                                 </small>
                                             }
                                         </div>
@@ -87,13 +87,13 @@
                                     <div class="mb-2">
                                         <small class="font-weight-bold">Mese</small>
                                         <div class="btn-group-toggle d-flex flex-wrap" data-toggle="buttons">
-                                            <small class="m-1 btn btn-outline-primary btn-sm active">
+                                            <small class="m-1 btn btn-outline-primary btn-sm @(Model.MonthRadio.CurrentlyActive==-1 || Model.YearRadio.CurrentlyActive==-1 ? "active" : "")">
                                                 <input type="radio" name="month" formmethod="post" value="-1" checked> Tutti
                                             </small>
                                             @for (int i = 1; i < 13; i++)
                                             {
-                                                <small class="m-1 btn btn-outline-primary btn-sm ">
-                                                    <input type="radio" value="@i" name="month"> @DateTimeFormatInfo.CurrentInfo.GetMonthName(i).First().ToString().ToUpper()@DateTimeFormatInfo.CurrentInfo.GetMonthName(i).Substring(1)
+                                                <small class="m-1 btn btn-outline-primary btn-sm @(Model.MonthRadio.CurrentlyActive==i && Model.YearRadio.CurrentlyActive!=-1 ? "active" : "")">
+                                                    <input type="radio" value="@i" name="month" @(Model.MonthRadio.CurrentlyActive==i && Model.YearRadio.CurrentlyActive!=-1 ? "checked" : "") formmethod="post"> @DateTimeFormatInfo.CurrentInfo.GetMonthName(i).First().ToString().ToUpper()@DateTimeFormatInfo.CurrentInfo.GetMonthName(i).Substring(1)
                                                 </small>
                                             }
                                         </div>

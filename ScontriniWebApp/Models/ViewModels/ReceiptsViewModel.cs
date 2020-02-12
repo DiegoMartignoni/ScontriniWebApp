@@ -15,7 +15,9 @@ namespace ScontriniWebApp.Models.ViewModels
 
         public SliderViewComponent MaxValueSlider { get; set; }
 
-        public int SliderPosition { get; set; }
+        public RadioViewComponent YearRadio { get; set; }
+
+        public RadioViewComponent MonthRadio { get; set; }
 
         public List<int> FilterYearsStored { get; set; }
 

@@ -15,6 +15,8 @@ namespace ScontriniWebApp.Models.InputModels
         {
             UserMinValue = minValue;
             UserMaxValue = maxValue;
+            Year = year;
+            Month = month;
 
             if(year != -1)
             {
@@ -56,5 +58,9 @@ namespace ScontriniWebApp.Models.InputModels
         public int UserMinValue { get; }
 
         public int UserMaxValue { get; }
+
+        public int Year { get; }
+
+        public int Month { get; }
     }
 }
