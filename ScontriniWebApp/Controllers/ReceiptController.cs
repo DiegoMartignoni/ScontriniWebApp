@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using ScontriniWebApp.Models.InputModels;
 using ScontriniWebApp.Models.Services.Application;
 using ScontriniWebApp.Models.ViewModels;
+using ScontriniWebApp.Models.ViewModels.ViewComponents;
 
 namespace ScontriniWebApp.Controllers
 {
@@ -32,23 +33,27 @@ namespace ScontriniWebApp.Controllers
 
         public async Task<IActionResult> List(ReceiptListInputModel model)
         {
-#warning Attenzione: logica applicativa in un controller, eseguire un refactor in uno step a parte.
             ViewData["ComingFrom1"] = "Dashboard";
             ViewData["Title"] = "Lista Scontrini";
-
-            //DateTime startDate = new DateTime(1900, 1, 1);
-            //DateTime dateTime = DateTime.Now;
-
             List<ReceiptViewModel> receipts = await receiptService.GetReceiptsAsync(model.Page, model.PaymentMethods, model.PriceMinValue, model.PriceMaxValue, model.StartDate, model.EndtDate);
-            
-
             return View(new ReceiptsViewModel
             {
                 Receipts = receipts,
-                MaxValue = ReceiptsPriceMaxValue,
-                Years = ReceiptsStoredYears,
-                Methods = ReceiptsTransactionMethods
-            });
+                MinValueSlider = new SliderViewComponent
+                {
+                    SliderPosition = model.UserMinValue,
+                    SliderMinValue = 0.00m,
+                    SliderMaxValue = ReceiptsPriceMaxValue
+                },
+                MaxValueSlider = new SliderViewComponent
+                {
+                    SliderPosition = model.UserMaxValue,
+                    SliderMaxValue = ReceiptsPriceMaxValue
+                },
+                FilterYearsStored = ReceiptsStoredYears,
+                FilterPaymentMethods = ReceiptsTransactionMethods,
+                CurrentPage = model.Page
+            });;
         }
 
         public async Task<IActionResult> Detail(int id)

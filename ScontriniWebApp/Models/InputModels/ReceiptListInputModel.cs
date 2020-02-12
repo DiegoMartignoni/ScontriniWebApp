@@ -13,6 +13,9 @@ namespace ScontriniWebApp.Models.InputModels
     {
         public ReceiptListInputModel(int page, List<string> paymentMethods, int year, int month, int minValue = 0, int maxValue = 5)
         {
+            UserMinValue = minValue;
+            UserMaxValue = maxValue;
+
             if(year != -1)
             {
                 if(month != -1)
@@ -50,5 +53,8 @@ namespace ScontriniWebApp.Models.InputModels
 
         public DateTime EndtDate { get; }
 
+        public int UserMinValue { get; }
+
+        public int UserMaxValue { get; }
     }
 }

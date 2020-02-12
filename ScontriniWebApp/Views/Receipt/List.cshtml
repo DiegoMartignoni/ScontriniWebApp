@@ -40,7 +40,7 @@
                                 <div class="col-lg-3 col-md-4 text-left mb-4">
                                     <h6>Metodo di Pagamento</h6>
                                     <input type="checkbox" class="d-none" id="empty" name="paymentMethods" value="empty" checked formmethod="post">
-                                    @foreach (string paymentMethod in Model.Methods)
+                                    @foreach (string paymentMethod in Model.FilterPaymentMethods)
                                     {
                                         <div class="custom-control custom-switch d-flex justify-content-start">
                                             <input type="checkbox" class="custom-control-input" id="@paymentMethod.ToLower()" name="paymentMethods" value="@paymentMethod.ToLower()" checked formmethod="post">
@@ -53,18 +53,18 @@
                                     <div class="mb-2 d-flex flex-column">
                                         <small class="font-weight-bold mb-2">Spesa Minima</small>
                                         <div class="d-flex justify-content-between">
-                                            <small class="badge badge-light">0,00</small>
-                                            <small class="badge badge-light">@Model.MaxValue</small>
+                                            <small class="badge badge-light">@Model.MinValueSlider.SliderMinValue</small>
+                                            <small class="badge badge-light">@Model.MinValueSlider.SliderMaxValue</small>
                                         </div>
-                                        <input type="range" class="custom-range mb-2" min="0" max="5" value="0" name="minValue" formmethod="post">
+                                        <input type="range" class="custom-range mb-2" min="0" max="5" value="@Model.MinValueSlider.SliderPosition" name="minValue" formmethod="post">
                                     </div>
                                     <div class="mb-2 d-flex flex-column">
                                         <small class="font-weight-bold mb-2">Spesa Massima</small>
                                         <div class="d-flex justify-content-between">
                                             <small class="badge badge-primary">MIN</small>
-                                            <small class="badge badge-light">@Model.MaxValue</small>
+                                            <small class="badge badge-light">@Model.MinValueSlider.SliderMaxValue</small>
                                         </div>
-                                        <input type="range" class="custom-range" min="0" max="5" value="5" name="maxValue" formmethod="post">
+                                        <input type="range" class="custom-range" min="0" max="5" value="@Model.MaxValueSlider.SliderPosition" name="maxValue" formmethod="post">
                                         <small class="text-muted">L'indicatore <spam class="badge badge-primary">MIN</spam> corssisponde al valore indicato nella <strong>spesa massima</strong>.</small>
                                     </div>
                                 </div>
@@ -76,7 +76,7 @@
                                             <small class="m-1 btn btn-outline-primary btn-sm active">
                                                 <input type="radio" name="year" formmethod="post" value="-1" checked> Tutti
                                             </small>
-                                            @foreach (int year in Model.Years)
+                                            @foreach (int year in Model.FilterYearsStored)
                                             {
                                                 <small class="m-1 btn btn-outline-primary btn-sm">
                                                     <input type="radio" name="year" formmethod="post" value="@year"> @year
@@ -189,9 +189,9 @@
             <div class="container d-flex justify-content-center">
                 <nav aria-label="Page navigation">
                     <ul class="pagination">
-                        <li class="page-item active"><a class="page-link" asp-route-page="1">1</a></li>
-                        <li class="page-item"><a class="page-link" asp-route-page="2">2</a></li>
-                        <li class="page-item"><a class="page-link" asp-route-page="3">3</a></li>
+                        <li class="page-item @(Model.CurrentPage.Equals(1)? "active": "")"><a class="page-link" asp-route-page="1">1</a></li>
+                        <li class="page-item @(Model.CurrentPage.Equals(2)? "active": "")"><a class="page-link" asp-route-page="2">2</a></li>
+                        <li class="page-item @(Model.CurrentPage.Equals(3)? "active": "")"><a class="page-link" asp-route-page="3">3</a></li>
                     </ul>
                 </nav>
             </div>
