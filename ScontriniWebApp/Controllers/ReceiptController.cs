@@ -49,7 +49,10 @@ namespace ScontriniWebApp.Controllers
                 paymentMethods = dbMethods;
             }
 
-            List<ReceiptViewModel> receipts = await receiptService.GetReceiptsAsync(page, paymentMethods, minValueToPass, maxValueToPass, year, month);
+            DateTime startDate = new DateTime(1900, 1, 1);
+            DateTime dateTime = DateTime.Now;
+
+            List<ReceiptViewModel> receipts = await receiptService.GetReceiptsAsync(page, paymentMethods, minValueToPass, maxValueToPass, startDate, dateTime);
             
 
             return View(new ReceiptsViewModel

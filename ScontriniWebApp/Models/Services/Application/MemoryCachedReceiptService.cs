@@ -32,13 +32,13 @@ namespace ScontriniWebApp.Models.Services.Application
             });
         }
 
-       public Task<List<ReceiptViewModel>> GetReceiptsAsync(int page, List<string> paymentMethods, decimal minValue, decimal maxValue, int year, int month)
+       public Task<List<ReceiptViewModel>> GetReceiptsAsync(int page, List<string> paymentMethods, decimal minValue, decimal maxValue, DateTime startDate, DateTime endDate)
         {
-            return memoryCache.GetOrCreateAsync($"Receipt-{page}-{paymentMethods.GetHashCode()}-{minValue}-{maxValue}-{year}-{month}", cacheEntry =>
+            return memoryCache.GetOrCreateAsync($"Receipt-{page}-{paymentMethods.GetHashCode()}-{minValue}-{maxValue}-{startDate.ToString()}-{endDate.ToString()}", cacheEntry =>
             {
                 cacheEntry.SetSize(1);
                 cacheEntry.SetAbsoluteExpiration(TimeSpan.FromSeconds(optionsMonitor.CurrentValue.ExpirationInSeconds));
-                return receiptService.GetReceiptsAsync(page, paymentMethods, minValue, maxValue, year, month);
+                return receiptService.GetReceiptsAsync(page, paymentMethods, minValue, maxValue, startDate, endDate);
             });
         }
 

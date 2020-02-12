@@ -8,6 +8,7 @@ using ScontriniWebApp.Models.ValueTypes;
 using ScontriniWebApp.Models.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -74,7 +75,7 @@ namespace ScontriniWebApp.Models.Services.Application
             return receipt;
         }
 
-        public Task<List<ReceiptViewModel>> GetReceiptsAsync(int page, List<string> paymentMethods, decimal minValue, decimal maxValue, int year, int month)
+        public Task<List<ReceiptViewModel>> GetReceiptsAsync(int page, List<string> paymentMethods, decimal minValue, decimal maxValue, DateTime startDate, DateTime endDate)
         {
 
             page = Math.Max(1, page);
