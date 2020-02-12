@@ -19,7 +19,7 @@ namespace ScontriniWebApp.Models.ViewModels
 
         public RadioViewComponent MonthRadio { get; set; }
 
-        public List<int> FilterYearsStored { get; set; }
+        public CheckboxViewComponent PaymentMethodsCheckbox { get; set; }
 
         public List<string> FilterPaymentMethods { get; set; }
 

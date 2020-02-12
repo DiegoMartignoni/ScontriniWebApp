@@ -40,10 +40,10 @@
                                 <div class="col-lg-3 col-md-4 text-left mb-4">
                                     <h6>Metodo di Pagamento</h6>
                                     <input type="checkbox" class="d-none" id="empty" name="paymentMethods" value="empty" checked formmethod="post">
-                                    @foreach (string paymentMethod in Model.FilterPaymentMethods)
+                                    @foreach (string paymentMethod in Model.PaymentMethodsCheckbox.PaymentMethodsStored)
                                     {
                                         <div class="custom-control custom-switch d-flex justify-content-start">
-                                            <input type="checkbox" class="custom-control-input" id="@paymentMethod.ToLower()" name="paymentMethods" value="@paymentMethod.ToLower()" checked formmethod="post">
+                                            <input type="checkbox" class="custom-control-input" id="@paymentMethod.ToLower()" name="paymentMethods" value="@paymentMethod.ToLower()" @(Model.PaymentMethodsCheckbox.PaymentMethodsChecked.Contains(paymentMethod.ToLower()) ? "checked" : "") formmethod="post">
                                             <label class="custom-control-label" for="@paymentMethod.ToLower()">@paymentMethod</label>
                                         </div>
                                     }

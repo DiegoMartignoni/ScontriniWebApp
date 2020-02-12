@@ -59,7 +59,11 @@ namespace ScontriniWebApp.Controllers
                 {
                     CurrentlyActive = model.Month
                 },
-                FilterYearsStored = ReceiptsStoredYears,
+                PaymentMethodsCheckbox = new CheckboxViewComponent
+                {
+                    PaymentMethodsChecked = model.PaymentMethods,
+                    PaymentMethodsStored = ReceiptsTransactionMethods
+                },
                 FilterPaymentMethods = ReceiptsTransactionMethods,
                 CurrentPage = model.Page
             });
