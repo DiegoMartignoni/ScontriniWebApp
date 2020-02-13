@@ -64,7 +64,6 @@ namespace ScontriniWebApp.Controllers
                     PaymentMethodsChecked = model.PaymentMethods,
                     PaymentMethodsStored = ReceiptsTransactionMethods
                 },
-                FilterPaymentMethods = ReceiptsTransactionMethods,
                 CurrentPage = model.Page
             });
         }

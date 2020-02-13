@@ -21,8 +21,6 @@ namespace ScontriniWebApp.Models.ViewModels
 
         public CheckboxViewComponent PaymentMethodsCheckbox { get; set; }
 
-        public List<string> FilterPaymentMethods { get; set; }
-
         public int CurrentPage { get; set; }
     }
 }
