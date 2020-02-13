@@ -31,14 +31,14 @@ namespace ScontriniWebApp.Controllers
             return View();
         }
 
-        public async Task<IActionResult> List(ReceiptListInputModel model)
+        public IActionResult List(ReceiptListInputModel model)
         {
             ViewData["ComingFrom1"] = "Dashboard";
             ViewData["Title"] = "Lista Scontrini";
-            List<ReceiptViewModel> receipts = await receiptService.GetReceiptsAsync(model.Page, model.PaymentMethods, model.PriceMinValue, model.PriceMaxValue, model.StartDate, model.EndtDate);
+            ListReceiptsViewModel receipts = receiptService.GetReceiptsAsync(model.Page, model.PaymentMethods, model.PriceMinValue, model.PriceMaxValue, model.StartDate, model.EndtDate);
             return View(new ReceiptsViewModel
             {
-                Receipts = receipts,
+                ListReceipts = receipts,
                 MinValueSlider = new SliderViewComponent
                 {
                     SliderPosition = model.UserMinValue,

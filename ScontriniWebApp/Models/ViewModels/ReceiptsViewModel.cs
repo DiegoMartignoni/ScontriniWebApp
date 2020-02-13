@@ -9,7 +9,7 @@ namespace ScontriniWebApp.Models.ViewModels
     public class ReceiptsViewModel
     {
 
-        public List<ReceiptViewModel> Receipts { get; set; }
+        public ListReceiptsViewModel ListReceipts { get; set; }
 
         public SliderViewComponent MinValueSlider { get; set; }
 

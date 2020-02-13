@@ -7,7 +7,7 @@ namespace ScontriniWebApp.Models.Services.Application
 {
     public interface IReceiptService
     {
-        Task<List<ReceiptViewModel>> GetReceiptsAsync(int page, List<string> paymentMethods, decimal minValue, decimal maxValue, DateTime startDate, DateTime endDate);
+        ListReceiptsViewModel GetReceiptsAsync(int page, List<string> paymentMethods, decimal minValue, decimal maxValue, DateTime startDate, DateTime endDate);
 
         Task<ReceiptDetailViewModel> GetReceiptAsync(int id);
 
