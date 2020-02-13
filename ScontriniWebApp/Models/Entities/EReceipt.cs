@@ -15,7 +15,7 @@ namespace ScontriniWebApp.Models.Entities
         public int? IdTransactionMethod { get; set; }
         public int? IdReceiptTemplate { get; set; }
         public string Location { get; set; }
-        public string FullDate { get; set; }
+        public DateTime FullDate { get; set; }
         public Money Price { get; set; }
         public string OrigImagePath { get; set; }
         public string ElabImagePath { get; set; }

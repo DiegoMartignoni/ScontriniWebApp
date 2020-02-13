@@ -44,7 +44,7 @@ namespace ScontriniWebApp.Models.Services.Application
                         PaymentMethod = method.PaymentMethod
                     }).Single(),
                     Location = receiptDetail.Location,
-                    DateTime = Convert.ToDateTime(receiptDetail.FullDate),
+                    DateTime = receiptDetail.FullDate,
                     Price = receiptDetail.Price,
                     ReceiptTemplate = dbContext.ReceiptTemplates
                         .Where(template => template.IdReceiptTemplate == receiptDetail.IdReceiptTemplate)
@@ -75,10 +75,9 @@ namespace ScontriniWebApp.Models.Services.Application
             return receipt;
         }
 
-        public Task<List<ReceiptViewModel>> GetReceiptsAsync(int page, List<string> paymentMethods, decimal minValue, decimal maxValue, DateTime startDate, DateTime endDate)
+        public ListReceiptsViewModel GetReceiptsAsync(int page, List<string> paymentMethods, decimal minValue, decimal maxValue, DateTime startDate, DateTime endDate)
         {
 
-            page = Math.Max(1, page);
             int limit = optionsMonitor.CurrentValue.PerPage;
             int offset = (page - 1) * limit;
 
@@ -90,7 +89,8 @@ namespace ScontriniWebApp.Models.Services.Application
                             .Select(method => new TransactionMethods
                             {
                                 PaymentMethod = method.PaymentMethod
-                            }).Single().PaymentMethod.ToLower()))
+                            }).Single().PaymentMethod.ToLower())
+                && receipt.FullDate > startDate && receipt.FullDate < endDate)
                 .Select(receipt =>
                     new ReceiptViewModel
                     {
@@ -103,7 +103,7 @@ namespace ScontriniWebApp.Models.Services.Application
                                 PaymentMethod = method.PaymentMethod
                             }).Single(),
                         Location = receipt.Location,
-                        DateTime = Convert.ToDateTime(receipt.FullDate),
+                        DateTime = receipt.FullDate,
                         Price = receipt.Price,
                         StoreItems = receipt.StoreItems.Select(item => new StoreItem
                         {
@@ -114,10 +114,49 @@ namespace ScontriniWebApp.Models.Services.Application
 
                     }).Skip(offset).Take(limit);
 
+            IQueryable<ReceiptViewModel> queryCount = dbContext.Receipts
+                            .Where(receipt => receipt.Price.Amount.CompareTo(minValue) >= 0
+                            && receipt.Price.Amount.CompareTo(maxValue) <= 0
+                            && paymentMethods.Contains(dbContext.TransMethods
+                                        .Where(transactionMethod => transactionMethod.IdTransMethod == receipt.IdTransactionMethod)
+                                        .Select(method => new TransactionMethods
+                                        {
+                                            PaymentMethod = method.PaymentMethod
+                                        }).Single().PaymentMethod.ToLower())
+                            && receipt.FullDate > startDate && receipt.FullDate < endDate)
+                            .Select(receipt =>
+                                new ReceiptViewModel
+                                {
+                                    Id = receipt.IdReceipt,
+                                    TransactionMethod = dbContext.TransMethods
+                                        .Where(transactionMethod => transactionMethod.IdTransMethod == receipt.IdTransactionMethod)
+                                        .Select(method => new TransactionMethods
+                                        {
+                                            ImagePath = method.TransImagePath,
+                                            PaymentMethod = method.PaymentMethod
+                                        }).Single(),
+                                    Location = receipt.Location,
+                                    DateTime = receipt.FullDate,
+                                    Price = receipt.Price,
+                                    StoreItems = receipt.StoreItems.Select(item => new StoreItem
+                                    {
+                                        Amount = item.Amount,
+                                        Currency = item.Currency,
+                                        Name = item.Name
+                                    }).ToList()
 
+                                });
             Task<List<ReceiptViewModel>> receipts = query.AsNoTracking().ToListAsync();
+            Task<int> receiptsCounter = queryCount.CountAsync();
 
-            return receipts;
+            int totalPages = (int)Math.Ceiling(receiptsCounter.Result / (decimal) limit);
+
+            ListReceiptsViewModel listReceipts = new ListReceiptsViewModel
+            {
+                Results = receipts.Result,
+                TotalPages = totalPages
+            };
+            return listReceipts;
         }
 
         public SearchViewModel GetReceiptsBySearch(string query)
@@ -135,7 +174,7 @@ namespace ScontriniWebApp.Models.Services.Application
                                         PaymentMethod = method.PaymentMethod
                                     }).Single(),
                                 Location = receipt.Location,
-                                DateTime = Convert.ToDateTime(receipt.FullDate),
+                                DateTime = receipt.FullDate,
                                 Price = receipt.Price,
                                 StoreItems = receipt.StoreItems.Select(item => new StoreItem
                                 {
@@ -163,7 +202,7 @@ namespace ScontriniWebApp.Models.Services.Application
                                         PaymentMethod = method.PaymentMethod
                                     }).Single(),
                                 Location = receipt.Location,
-                                DateTime = Convert.ToDateTime(receipt.FullDate),
+                                DateTime = receipt.FullDate,
                                 Price = receipt.Price,
                                 StoreItems = receipt.StoreItems
                                 .Select(item => new StoreItem
@@ -211,7 +250,7 @@ namespace ScontriniWebApp.Models.Services.Application
         {
             IQueryable<ReceiptViewModel> query = dbContext.Receipts.Select(receipt => new ReceiptViewModel
             {
-                DateTime = Convert.ToDateTime(receipt.FullDate)
+                DateTime = receipt.FullDate
             });
             List<ReceiptViewModel> receipts = query.AsNoTracking().ToList();
             return receipts.Select(receipt => receipt.DateTime.Year).Distinct().ToList();

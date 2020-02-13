@@ -3,18 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using ScontriniWebApp.Models.InputModels;
 using ScontriniWebApp.Models.Services.Application;
 using ScontriniWebApp.Models.ViewModels;
+using ScontriniWebApp.Models.ViewModels.ViewComponents;
 
 namespace ScontriniWebApp.Controllers
 {
     public class ReceiptController : Controller
     {
         private readonly IReceiptService receiptService;
+        public static decimal ReceiptsPriceMaxValue { get; private set; }
+        public static List<string> ReceiptsTransactionMethods { get; private set; }
+        public static List<int> ReceiptsStoredYears { get; private set; }
 
         public ReceiptController(IChachedReceiptService receiptService)
         {
             this.receiptService = receiptService;
+            ReceiptsPriceMaxValue = receiptService.GetReceiptsMaxValue();
+            ReceiptsTransactionMethods = receiptService.GetReceiptsMethods();
+            ReceiptsStoredYears = receiptService.GetReceiptsYears();
         }
         public IActionResult Index()
         {
@@ -23,44 +31,40 @@ namespace ScontriniWebApp.Controllers
             return View();
         }
 
-        public async Task<IActionResult> List(
-            int page, 
-            List<string> paymentMethods,
-            int minValue = 0, 
-            int maxValue = 5, 
-            int year = -1, 
-            int month = -1)
+        public IActionResult List(ReceiptListInputModel model)
         {
-#warning Attenzione: logica applicativa in un controller, eseguire un refactor in uno step a parte.
             ViewData["ComingFrom1"] = "Dashboard";
             ViewData["Title"] = "Lista Scontrini";
-            decimal dbMaxValue = receiptService.GetReceiptsMaxValue();
-            List<string> dbMethods = receiptService.GetReceiptsMethods(); 
-            List<int> dbYears = receiptService.GetReceiptsYears();
-
-            decimal minValueToPass = (dbMaxValue * ((decimal)(minValue * 20) / 100));
-            decimal maxValueToPass = minValueToPass + ((dbMaxValue - minValueToPass) * ((decimal)(maxValue * 20) /100));
-
-            if (paymentMethods.Any())
-            {
-                paymentMethods.Remove("empty");
-            } else
-            {
-                paymentMethods = dbMethods;
-            }
-
-            DateTime startDate = new DateTime(1900, 1, 1);
-            DateTime dateTime = DateTime.Now;
-
-            List<ReceiptViewModel> receipts = await receiptService.GetReceiptsAsync(page, paymentMethods, minValueToPass, maxValueToPass, startDate, dateTime);
-            
-
+            ListReceiptsViewModel receipts = receiptService.GetReceiptsAsync(model.Page, model.PaymentMethods, model.PriceMinValue, model.PriceMaxValue, model.StartDate, model.EndtDate);
             return View(new ReceiptsViewModel
             {
-                Receipts = receipts,
-                MaxValue = dbMaxValue,
-                Years = dbYears,
-                Methods = dbMethods
+                ListReceipts = receipts,
+                MinValueSlider = new SliderViewComponent
+                {
+                    SliderPosition = model.UserMinValue,
+                    SliderMinValue = 0.00m,
+                    SliderMaxValue = ReceiptsPriceMaxValue
+                },
+                MaxValueSlider = new SliderViewComponent
+                {
+                    SliderPosition = model.UserMaxValue,
+                    SliderMaxValue = ReceiptsPriceMaxValue
+                },
+                YearRadio = new RadioViewComponent
+                {
+                    CurrentlyActive = model.Year,
+                    RadioList = ReceiptsStoredYears
+                },
+                MonthRadio = new RadioViewComponent
+                {
+                    CurrentlyActive = model.Month
+                },
+                PaymentMethodsCheckbox = new CheckboxViewComponent
+                {
+                    PaymentMethodsChecked = model.PaymentMethods,
+                    PaymentMethodsStored = ReceiptsTransactionMethods
+                },
+                CurrentPage = model.Page
             });
         }
 

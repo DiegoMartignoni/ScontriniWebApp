@@ -70,7 +70,6 @@ namespace ScontriniWebApp.Models.Services.Infrastructure
                     .HasColumnType("VARCHAR(50)");
 
                 entity.Property(e => e.FullDate)
-                    .HasConversion<byte[]>()
                     .HasColumnName("fullDate")
                     .HasColumnType("DATE");
 
