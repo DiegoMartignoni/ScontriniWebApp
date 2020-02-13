@@ -39,8 +39,8 @@ namespace ScontriniWebApp.Models.InputModels
             Page = Math.Max(1, page);
             if(paymentMethods.Any()) paymentMethods.Remove("empty"); else paymentMethods = ReceiptController.ReceiptsTransactionMethods;
             PaymentMethods = paymentMethods;
-            PriceMinValue = (ReceiptController.ReceiptsPriceMaxValue * ((decimal)(minValue * 20) / 100));
-            PriceMaxValue = PriceMinValue + ((ReceiptController.ReceiptsPriceMaxValue - maxValue) * ((decimal)(maxValue * 20) / 100));
+            PriceMinValue = (ReceiptController.ReceiptsPriceMaxValue * ((minValue * 20) / (decimal) 100));
+            PriceMaxValue = PriceMinValue + ((ReceiptController.ReceiptsPriceMaxValue) * ((maxValue * 20) / (decimal) 100));
         }
 
         public int Page { get; }
