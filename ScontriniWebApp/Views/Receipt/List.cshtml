@@ -1,21 +1,135 @@
-﻿@model List<ReceiptViewModel>
-@{
-    ViewData["Title"] = "Lista Scontrini";
-}
-
+﻿@model ReceiptsViewModel
 
     <div class="text-center">
-        <h1 class="display-4 mb-4">Lista Scontrini</h1>
 
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb bg-white font-weight-bolder">
+                <li class="breadcrumb-item"><a asp-area="" asp-controller="Home" asp-action="Index">@ViewData["ComingFrom1"]</a></li>
+                <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+            </ol>
+        </nav>
+        
         <div class="container">
+            <div class="accordion" id="accordionFiltri">
+                <div class="card mb-4 bg-white border-0 shadow">
+                    <div class="card-header bg-white border-0 d-flex align-items-center">
+                        <img src="~/media/sliders-h-solid.svg" alt="recent" height="20" class="pr-3" />
+                        <span>Ricerca e Filtri</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <form class="input-group col-md-6 col-8" asp-controller="Search" asp-action="Index">
+                                <input class="form-control" type="search" placeholder="Cerca" aria-label="Search" name="query" formmethod="get">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary d-flex align-items-center" type="submit">
+                                        <img src="~/media/search-solid-white.svg" alt="search" height="15" />
+                                    </button>
+                                </div>
+                            </form>
+                            <div class="col-md-6 col-4 d-flex justify-content-end">
+                                <button class="btn btn-light d-flex align-items-center" type="button" data-toggle="collapse" data-target="#collapseFiltri" aria-expanded="true" aria-controls="collapseFiltri">
+                                    <img class="pr-2" src="~/media/filter-solid.svg" alt="filter" height="15" />
+                                    Filtri
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="collapseFiltri" class="collapse" aria-labelledby="headingOne" data-parent="#accordionFiltri">
+                        <form class="card-body" asp-controller="Receipt" asp-action="List">
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 text-left mb-4">
+                                    <h6>Metodo di Pagamento</h6>
+                                    <input type="checkbox" class="d-none" id="empty" name="paymentMethods" value="empty" checked formmethod="post">
+                                    @foreach (string paymentMethod in Model.PaymentMethodsCheckbox.PaymentMethodsStored)
+                                    {
+                                        <div class="custom-control custom-switch d-flex justify-content-start">
+                                            <input type="checkbox" class="custom-control-input" id="@paymentMethod.ToLower()" name="paymentMethods" value="@paymentMethod.ToLower()" @(Model.PaymentMethodsCheckbox.PaymentMethodsChecked.Contains(paymentMethod.ToLower()) ? "checked" : "") formmethod="post">
+                                            <label class="custom-control-label" for="@paymentMethod.ToLower()">@paymentMethod</label>
+                                        </div>
+                                    }
+                                </div>
+                                <div class="col-lg-5 col-md-8 text-left mb-4">
+                                    <h6>Soldi Spesi</h6>
+                                    <div class="mb-2 d-flex flex-column">
+                                        <small class="font-weight-bold mb-2">Spesa Minima</small>
+                                        <div class="d-flex justify-content-between">
+                                            <small class="badge badge-light">@Model.MinValueSlider.SliderMinValue</small>
+                                            <small class="badge badge-light">@Model.MinValueSlider.SliderMaxValue</small>
+                                        </div>
+                                        <input type="range" class="custom-range mb-2" min="0" max="5" value="@Model.MinValueSlider.SliderPosition" name="minValue" formmethod="post">
+                                    </div>
+                                    <div class="mb-2 d-flex flex-column">
+                                        <small class="font-weight-bold mb-2">Spesa Massima</small>
+                                        <div class="d-flex justify-content-between">
+                                            <small class="badge badge-primary">MIN</small>
+                                            <small class="badge badge-light">@Model.MinValueSlider.SliderMaxValue</small>
+                                        </div>
+                                        <input type="range" class="custom-range" min="0" max="5" value="@Model.MaxValueSlider.SliderPosition" name="maxValue" formmethod="post">
+                                        <small class="text-muted">L'indicatore <spam class="badge badge-primary">MIN</spam> corssisponde al valore indicato nella <strong>spesa massima</strong>.</small>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 text-left mb-4">
+                                    <h6>Anno e mese</h6>
+                                    <div class="mb-2">
+                                        <small class="font-weight-bold">Anno</small>
+                                        <div class="btn-group-toggle d-flex flex-wrap" data-toggle="buttons">
+                                            <small class="m-1 btn btn-outline-primary btn-sm @(Model.YearRadio.CurrentlyActive==-1 ? "active" : "")">
+                                                <input type="radio" name="year" formmethod="post" value="-1" @(Model.YearRadio.CurrentlyActive==-1 ? "checked" : "")> Tutti
+                                            </small>
+                                            @foreach (int year in Model.YearRadio.RadioList)
+                                            {
+                                                <small class="m-1 btn btn-outline-primary btn-sm @(Model.YearRadio.CurrentlyActive==year ? "active" : "")">
+                                                    <input type="radio" name="year" formmethod="post" value="@year" @(Model.YearRadio.CurrentlyActive==year ? "checked" : "")> @year
+                                                </small>
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="mb-2">
+                                        <small class="font-weight-bold">Mese</small>
+                                        <div class="btn-group-toggle d-flex flex-wrap" data-toggle="buttons">
+                                            <small class="m-1 btn btn-outline-primary btn-sm @(Model.MonthRadio.CurrentlyActive==-1 || Model.YearRadio.CurrentlyActive==-1 ? "active" : "")">
+                                                <input type="radio" name="month" formmethod="post" value="-1" checked> Tutti
+                                            </small>
+                                            @for (int i = 1; i < 13; i++)
+                                            {
+                                                <small class="m-1 btn btn-outline-primary btn-sm @(Model.MonthRadio.CurrentlyActive==i && Model.YearRadio.CurrentlyActive!=-1 ? "active" : "")">
+                                                    <input type="radio" value="@i" name="month" @(Model.MonthRadio.CurrentlyActive==i && Model.YearRadio.CurrentlyActive!=-1 ? "checked" : "") formmethod="post"> @DateTimeFormatInfo.CurrentInfo.GetMonthName(i).First().ToString().ToUpper()@DateTimeFormatInfo.CurrentInfo.GetMonthName(i).Substring(1)
+                                                </small>
+                                            }
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-end">
+                                <button type="submit" class="btn btn-primary d-flex align-items-center">
+                                    <img class="pr-2" src="~/media/save-solid-white.svg" alt="save" height="15" />
+                                    Salva Filtri
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            @if (Model.ListReceipts == null)
+            {
+                <div class="container">
+                    <div class="p-4 container-fluid d-flex justify-content-center align-items-center">
+                        <img src="~/media/sad-tear-solid-50.svg" alt="empty" class="pr-4" height="45" />
+                        <h2 class="text-black-50">Nessun risultato</h2>
+                    </div>
+                </div>
+            }
+            else
+            {
             <div class="row">
-                @foreach (ReceiptViewModel receipt in Model)
+                @foreach (ReceiptViewModel receipt in Model.ListReceipts.Results)
                 {
                     <div class="col-md-4">
-                        <div class="card text-left bg-light mb-4 shadow-sm">
-                            <div class="card-header">
+                        <div class="card bg-white border-0 text-left bg-white mb-4 shadow">
+                            <div class="card-header bg-white card-header box-shadow">
                                 <span class="d-flex align-items-center">
-                                    <img class="p-2 p-md-1" src="~/media/@receipt.TransactionMethod.ImagePath" width="30" height="30" />
+                                    <img class="pr-3" src="~/media/@receipt.TransactionMethod.ImagePath" height="20" />
                                     @receipt.TransactionMethod.PaymentMethod
                                 </span>
                             </div>
@@ -45,11 +159,11 @@
                                     }
 
                                 </div>
-                                
+
                                 <div class="d-flex flex-wrap">
                                     <div class="pr-2 pb-2">
                                         <a asp-route-id="@receipt.Id" asp-controller="Receipt" asp-action="Detail" class="btn btn-primary">
-                                            <img src="~/media/info-circle-solid-white.svg" alt="dettaglio" width="20" height="20"/>
+                                            <img src="~/media/info-circle-solid-white.svg" alt="dettaglio" width="20" height="20" />
                                         </a>
                                     </div>
                                     <div class="pr-2 pb-2">
@@ -58,20 +172,41 @@
                                         </a>
                                     </div>
                                     <div class="pr-2 pb-2">
-                                        <a href="#"  class="btn btn-danger">
+                                        <a href="#" class="btn btn-danger">
                                             <img src="~/media/trash-solid-white.svg" alt="dettaglio" width="20" height="20" />
                                         </a>
                                     </div>
                                 </div>
                             </div>
-                            <div class="card-footer d-flex justify-content-between">
-                                <small>@receipt.DateTime.Day-@receipt.DateTime.Month-@receipt.DateTime.Year</small>
-                                <small>@receipt.DateTime.Hour:@receipt.DateTime.Minute</small>
+                            <div class="card-footer border-0 bg-white d-flex justify-content-between">
+                                <small>@receipt.DateTime.ToString("dd-MM-yyyy")</small>
+                                <small>@receipt.DateTime.ToString("HH:mm")</small>
                             </div>
                         </div>
                     </div>
                 }
             </div>
-        </div>
+            <form class="container d-flex justify-content-center" asp-controller="Receipt" asp-action="List">
+                @foreach (var methods in Model.PaymentMethodsCheckbox.PaymentMethodsChecked)
+                {
+                    <input name="paymentMethods" value="@methods.ToLower()" formmethod="post" class="d-none" />
+                }
+                <input name="minValue" value="@Model.MinValueSlider.SliderPosition" formmethod="post" class="d-none" />
+                <input name="maxValue" value="@Model.MaxValueSlider.SliderPosition" formmethod="post" class="d-none" />
+                <input name="year" value="@Model.YearRadio.CurrentlyActive" formmethod="post" class="d-none" />
+                <input name="month" value="@Model.MonthRadio.CurrentlyActive" formmethod="post" class="d-none" />
+                <nav aria-label="Page navigation">
+                    <ul class="pagination">
 
+                        @for (int i = Math.Max(1, Model.CurrentPage - 4); i < Math.Min(Model.ListReceipts.TotalPages + 1, Model.CurrentPage + 4); i++)
+                        {
+                            <li class="page-item @(Model.CurrentPage.Equals(i)? "active": "")"><button class="page-link" asp-route-page="@i" type="submit">@i</button></li>
+
+                        }
+                    </ul>
+                </nav>
+            </form>
+            }
+            
+        </div>
     </div>

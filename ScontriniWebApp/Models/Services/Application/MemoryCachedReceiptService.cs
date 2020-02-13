@@ -24,7 +24,7 @@ namespace ScontriniWebApp.Models.Services.Application
         }
         public Task<ReceiptDetailViewModel> GetReceiptAsync(int id)
         {
-            return memoryCache.GetOrCreateAsync($"Receipt{id}", cacheEntry =>
+            return memoryCache.GetOrCreateAsync($"Receipt-{id}", cacheEntry =>
             {
                 cacheEntry.SetSize(1);
                 cacheEntry.SetAbsoluteExpiration(TimeSpan.FromSeconds(optionsMonitor.CurrentValue.ExpirationInSeconds));
@@ -32,13 +32,53 @@ namespace ScontriniWebApp.Models.Services.Application
             });
         }
 
-        public Task<List<ReceiptViewModel>> GetReceiptsAsync()
+       public ListReceiptsViewModel GetReceiptsAsync(int page, List<string> paymentMethods, decimal minValue, decimal maxValue, DateTime startDate, DateTime endDate)
         {
-            return memoryCache.GetOrCreateAsync($"Receipt", cacheEntry =>
+            return memoryCache.GetOrCreate($"Receipt-{page}-{paymentMethods.GetHashCode()}-{minValue}-{maxValue}-{startDate.ToString()}-{endDate.ToString()}", cacheEntry =>
             {
                 cacheEntry.SetSize(1);
                 cacheEntry.SetAbsoluteExpiration(TimeSpan.FromSeconds(optionsMonitor.CurrentValue.ExpirationInSeconds));
-                return receiptService.GetReceiptsAsync();
+                return receiptService.GetReceiptsAsync(page, paymentMethods, minValue, maxValue, startDate, endDate);
+            });
+        }
+
+        public SearchViewModel GetReceiptsBySearch(string query)
+        {
+            return memoryCache.GetOrCreate($"ReceiptsBySearch-{query}", cacheEntry =>
+            {
+                cacheEntry.SetSize(1);
+                cacheEntry.SetAbsoluteExpiration(TimeSpan.FromSeconds(optionsMonitor.CurrentValue.ExpirationInSeconds));
+                return receiptService.GetReceiptsBySearch(query);
+            });
+        }
+
+        public decimal GetReceiptsMaxValue()
+        {
+            return memoryCache.GetOrCreate($"MaxValue", cacheEntry =>
+            {
+                cacheEntry.SetSize(1);
+                cacheEntry.SetAbsoluteExpiration(TimeSpan.FromSeconds(optionsMonitor.CurrentValue.ExpirationInSeconds));
+                return receiptService.GetReceiptsMaxValue();
+            });
+        }
+
+        public List<string> GetReceiptsMethods()
+        {
+            return memoryCache.GetOrCreate($"Methods", cacheEntry =>
+            {
+                cacheEntry.SetSize(1);
+                cacheEntry.SetAbsoluteExpiration(TimeSpan.FromSeconds(optionsMonitor.CurrentValue.ExpirationInSeconds));
+                return receiptService.GetReceiptsMethods();
+            });
+        }
+
+        public List<int> GetReceiptsYears()
+        {
+            return memoryCache.GetOrCreate($"Years", cacheEntry =>
+            {
+                cacheEntry.SetSize(1);
+                cacheEntry.SetAbsoluteExpiration(TimeSpan.FromSeconds(optionsMonitor.CurrentValue.ExpirationInSeconds));
+                return receiptService.GetReceiptsYears();
             });
         }
     }
