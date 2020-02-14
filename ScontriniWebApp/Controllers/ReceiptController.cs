@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using ScontriniWebApp.Models.InputModels;
 using ScontriniWebApp.Models.Services.Application;
 using ScontriniWebApp.Models.ViewModels;
-using ScontriniWebApp.Models.ViewModels.ViewComponents;
+using ScontriniWebApp.Models.ViewModels.ComponentsModels;
 
 namespace ScontriniWebApp.Controllers
 {
@@ -39,27 +39,27 @@ namespace ScontriniWebApp.Controllers
             return View(new ReceiptsViewModel
             {
                 ListReceipts = receipts,
-                MinValueSlider = new SliderViewComponent
+                MinValueSlider = new SliderComponentsModel
                 {
                     SliderPosition = model.UserMinValue,
                     SliderMinValue = 0.00m,
                     SliderMaxValue = ReceiptsPriceMaxValue
                 },
-                MaxValueSlider = new SliderViewComponent
+                MaxValueSlider = new SliderComponentsModel
                 {
                     SliderPosition = model.UserMaxValue,
                     SliderMaxValue = ReceiptsPriceMaxValue
                 },
-                YearRadio = new RadioViewComponent
+                YearRadio = new RadioComponentsModel
                 {
                     CurrentlyActive = model.Year,
                     RadioList = ReceiptsStoredYears
                 },
-                MonthRadio = new RadioViewComponent
+                MonthRadio = new RadioComponentsModel
                 {
                     CurrentlyActive = model.Month
                 },
-                PaymentMethodsCheckbox = new CheckboxViewComponent
+                PaymentMethodsCheckbox = new CheckboxComponentsModel
                 {
                     PaymentMethodsChecked = model.PaymentMethods,
                     PaymentMethodsStored = ReceiptsTransactionMethods
