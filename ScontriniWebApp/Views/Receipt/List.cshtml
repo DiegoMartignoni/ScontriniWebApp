@@ -18,14 +18,7 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <form class="input-group col-md-6 col-8" asp-controller="Search" asp-action="Index">
-                                <input class="form-control" type="search" placeholder="Cerca" aria-label="Search" name="query" formmethod="get">
-                                <div class="input-group-append">
-                                    <button class="btn btn-primary d-flex align-items-center" type="submit">
-                                        <img src="~/media/search-solid-white.svg" alt="search" height="15" />
-                                    </button>
-                                </div>
-                            </form>
+                            <vc:search></vc:search>
                             <div class="col-md-6 col-4 d-flex justify-content-end">
                                 <button class="btn btn-light d-flex align-items-center" type="button" data-toggle="collapse" data-target="#collapseFiltri" aria-expanded="true" aria-controls="collapseFiltri">
                                     <img class="pr-2" src="~/media/filter-solid.svg" alt="filter" height="15" />
@@ -111,7 +104,7 @@
                     </div>
                 </div>
             </div>
-            @if (Model.ListReceipts == null)
+            @if (Model.ListReceipts.Results.Count == 0)
             {
                 <div class="container">
                     <div class="p-4 container-fluid d-flex justify-content-center align-items-center">
