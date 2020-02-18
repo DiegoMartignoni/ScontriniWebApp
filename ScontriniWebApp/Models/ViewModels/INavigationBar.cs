@@ -13,5 +13,7 @@ namespace ScontriniWebApp.Models.ViewModels
         string Action { get; }
 
         string Title { get; }
+
+        List<GenericInputComponentsModel> InputValues { get; }
     }
 }

@@ -14,10 +14,14 @@ namespace ScontriniWebApp.Models.ViewModels.ComponentsModels
 
         public string ItemTitle { get; set; }
 
+        public List<GenericInputComponentsModel> ItemInputValues { get; set; }
+
         string INavigationBar.Controller => ItemController.First().ToString().ToUpper() + ItemController.Substring(1).ToLower();
 
         string INavigationBar.Action => ItemAction.First().ToString().ToUpper() + ItemAction.Substring(1).ToLower();
 
         string INavigationBar.Title => ItemTitle.First().ToString().ToUpper() + ItemTitle.Substring(1).ToLower();
+
+        List<GenericInputComponentsModel> INavigationBar.InputValues => ItemInputValues;
     }
 }

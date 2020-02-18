@@ -5,7 +5,16 @@
         {
             @for (int i = 0; i < NavigationBarViewModel.NavItems.Count - 1; i++)
             {
-                <li class="breadcrumb-item"><a asp-area="" asp-controller="@NavigationBarViewModel.NavItems[i].Controller" asp-action="@NavigationBarViewModel.NavItems[i].Action">@NavigationBarViewModel.NavItems[i].Title</a></li>
+                <form class="breadcrumb-item d-flex align-items-center" asp-area="" asp-controller="@NavigationBarViewModel.NavItems[i].Controller" asp-action="@NavigationBarViewModel.NavItems[i].Action">
+                    @if (NavigationBarViewModel.NavItems[i].InputValues != null)
+                    {
+                        @foreach (var inputValue in NavigationBarViewModel.NavItems[i].InputValues)
+                        {
+                            <input class="d-none" type="@inputValue.Type" formmethod="@inputValue.Method" value="@inputValue.Value" name="@inputValue.Name" />
+                        }
+                    }
+                    <input class="m-0 p-0 btn btn-link font-weight-bold bg-white border-0" type="submit" value="@NavigationBarViewModel.NavItems[i].Title">
+                </form>
             }
             <li class="breadcrumb-item active" aria-current="page">@NavigationBarViewModel.NavItems[NavigationBarViewModel.NavItems.Count - 1].Title</li>
         }

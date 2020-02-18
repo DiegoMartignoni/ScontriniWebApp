@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ScontriniWebApp.Models.Services.Application;
 using ScontriniWebApp.Models.ViewModels;
+using ScontriniWebApp.Models.ViewModels.ComponentsModels;
 
 namespace ScontriniWebApp.Controllers
 {
@@ -18,8 +19,25 @@ namespace ScontriniWebApp.Controllers
         }
         public IActionResult Index(string query)
         {
-            ViewData["ComingFrom1"] = "Dashboard";
-            ViewData["ComingFrom2"] = "Lista Scontrini";
+            GenericInputComponentsModel queryInput = new GenericInputComponentsModel
+            {
+                Type = "search",
+                Name = "query",
+                Value = query,
+                Method = "get"
+            };
+
+            List<GenericInputComponentsModel> inputValues = new List<GenericInputComponentsModel>();
+            inputValues.Add(queryInput);
+
+            ViewBag.NewBreadcrumItem = new BreadcrumComponentsModel
+            {
+                ItemController = "search",
+                ItemAction = "index",
+                ItemTitle = "ricerca",
+                ItemInputValues = inputValues
+            };
+
             ViewData["Title"] = "Risultati Ricerca";
 
 
