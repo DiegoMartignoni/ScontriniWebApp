@@ -8,13 +8,6 @@ namespace ScontriniWebApp.Models.ViewModels.ComponentsModels
     public class BreadcrumComponentsModel : INavigationBar
     {
 
-        //public BreadcrumComponentsModel(string controller, string action, string title)
-        //{
-        //    ItemController = controller.First().ToString().ToUpper() + controller.Substring(1).ToLower();
-        //    ItemAction = action.First().ToString().ToUpper() + action.Substring(1).ToLower();
-        //    ItemTitle = title.First().ToString().ToUpper() + title.Substring(1).ToLower();
-        //}
-
         public string ItemController { get; set; }
 
         public string ItemAction { get; set; }

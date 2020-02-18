@@ -22,7 +22,6 @@ namespace ScontriniWebApp.Models.ViewModels
         public CheckboxComponentsModel PaymentMethodsCheckbox { get; set; }
 
         public int CurrentPage { get; set; }
-        public BreadcrumComponentsModel BreadcrumNewItem { get; internal set; }
 
 
         #region Implementazione IPaginationInfo

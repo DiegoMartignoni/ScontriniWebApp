@@ -33,8 +33,15 @@ namespace ScontriniWebApp.Controllers
 
         public IActionResult List(ReceiptListInputModel model)
         {
-            ViewData["ComingFrom1"] = "Dashboard";
             ViewData["Title"] = "Lista Scontrini";
+
+            ViewBag.NewBreadcrumItem = new BreadcrumComponentsModel
+            {
+                ItemController = "receipt",
+                ItemAction = "list",
+                ItemTitle = "lista"
+            };
+
             ListReceiptsViewModel receipts = receiptService.GetReceiptsAsync(model.Page, model.PaymentMethods, model.PriceMinValue, model.PriceMaxValue, model.StartDate, model.EndtDate);
             return View(new ReceiptsViewModel
             {
@@ -64,21 +71,19 @@ namespace ScontriniWebApp.Controllers
                     PaymentMethodsChecked = model.PaymentMethods,
                     PaymentMethodsStored = ReceiptsTransactionMethods
                 },
-                CurrentPage = model.Page,
-                BreadcrumNewItem = new BreadcrumComponentsModel
-                {
-                    ItemController = "receipt",
-                    ItemAction = "list",
-                    ItemTitle = "lista"
-                }
+                CurrentPage = model.Page
         });
         }
 
         public async Task<IActionResult> Detail(int id)
         {
-            ViewData["ComingFrom1"] = "Dashboard";
-            ViewData["ComingFrom2"] = "Lista Scontrini";
-            ViewData["Title"] = "Dettaglio Scontrino";
+            ViewBag.NewBreadcrumItem = new BreadcrumComponentsModel
+            {
+                ItemController = "receipt",
+                ItemAction = "detail",
+                ItemTitle = "dettaglio"
+            };
+
             ReceiptDetailViewModel receipt = await receiptService.GetReceiptAsync(id);
             return View(receipt);
         }

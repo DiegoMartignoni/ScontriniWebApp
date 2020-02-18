@@ -23,13 +23,14 @@ namespace ScontriniWebApp.Controllers
         //[ResponseCache(CacheProfileName = "Home")]
         public IActionResult Index()
         {
-            BreadcrumComponentsModel newItem = new BreadcrumComponentsModel
+            ViewBag.NewBreadcrumItem = new BreadcrumComponentsModel
             {
                 ItemController = "home",
                 ItemAction = "index",
                 ItemTitle = "dashboard"
             };
-            return View(newItem);
+
+            return View();
         }
 
     }
