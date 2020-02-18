@@ -20,7 +20,7 @@ namespace ScontriniWebApp.Controllers
             _logger = logger;
         }
 
-        [ResponseCache(CacheProfileName = "Home")]
+        //[ResponseCache(CacheProfileName = "Home")]
         public IActionResult Index()
         {
             BreadcrumComponentsModel newItem = new BreadcrumComponentsModel
