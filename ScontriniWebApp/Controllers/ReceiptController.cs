@@ -64,8 +64,14 @@ namespace ScontriniWebApp.Controllers
                     PaymentMethodsChecked = model.PaymentMethods,
                     PaymentMethodsStored = ReceiptsTransactionMethods
                 },
-                CurrentPage = model.Page
-            });
+                CurrentPage = model.Page,
+                BreadcrumNewItem = new BreadcrumComponentsModel
+                {
+                    ItemController = "receipt",
+                    ItemAction = "list",
+                    ItemTitle = "lista"
+                }
+        });
         }
 
         public async Task<IActionResult> Detail(int id)

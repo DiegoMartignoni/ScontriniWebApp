@@ -1,0 +1,18 @@
+﻿<nav aria-label="breadcrumb">
+    <ol class="breadcrumb bg-white font-weight-bolder">
+
+        @if (NavigationBarViewModel.NavItems.Count > 1)
+        {
+            @for (int i = 0; i < NavigationBarViewModel.NavItems.Count - 1; i++)
+            {
+                <li class="breadcrumb-item"><a asp-area="" asp-controller="@NavigationBarViewModel.NavItems[i].Controller" asp-action="@NavigationBarViewModel.NavItems[i].Action">@NavigationBarViewModel.NavItems[i].Title</a></li>
+            }
+            <li class="breadcrumb-item active" aria-current="page">@NavigationBarViewModel.NavItems[NavigationBarViewModel.NavItems.Count - 1].Title</li>
+        }
+        else
+        {
+    <li class="breadcrumb-item active" aria-current="page">@NavigationBarViewModel.NavItems[0].Title</li>
+        }
+
+    </ol>
+</nav>

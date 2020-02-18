@@ -2,12 +2,7 @@
 
     <div class="text-center">
 
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb bg-white font-weight-bolder">
-                <li class="breadcrumb-item"><a asp-area="" asp-controller="Home" asp-action="Index">@ViewData["ComingFrom1"]</a></li>
-                <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
-            </ol>
-        </nav>
+        <vc:navigation-bar model="@Model.BreadcrumNewItem"></vc:navigation-bar>
         
         <div class="container">
             <div class="accordion" id="accordionFiltri">
