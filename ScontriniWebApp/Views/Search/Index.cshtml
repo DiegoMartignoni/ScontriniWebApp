@@ -1,13 +1,7 @@
 ﻿@model SearchViewModel
 
     <div class="text-left">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb bg-white font-weight-bolder">
-                <li class="breadcrumb-item"><a asp-area="" asp-controller="Home" asp-action="Index">@ViewData["ComingFrom1"]</a></li>
-                <li class="breadcrumb-item"><a asp-area="" asp-controller="Receipt" asp-action="List">@ViewData["ComingFrom2"]</a></li>
-                <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
-            </ol>
-        </nav>
+        <vc:navigation-bar model="@ViewBag.NewBreadcrumItem"></vc:navigation-bar>
 
         <h5 class="mb-4">@Model.ResultCounter risultati per <span class="badge badge-dark">"@Model.Query"</span></h5>
         <div class="card mb-4 bg-white border-0 shadow">
@@ -188,3 +182,4 @@
                 </div>
             </div>
         </div>
+    </div>

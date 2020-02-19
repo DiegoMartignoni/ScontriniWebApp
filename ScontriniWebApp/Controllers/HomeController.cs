@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using ScontriniWebApp.Models;
+using ScontriniWebApp.Models.ViewModels;
+using ScontriniWebApp.Models.ViewModels.ComponentsModels;
 
 namespace ScontriniWebApp.Controllers
 {
@@ -18,9 +20,16 @@ namespace ScontriniWebApp.Controllers
             _logger = logger;
         }
 
-        [ResponseCache(CacheProfileName = "Home")]
+        //[ResponseCache(CacheProfileName = "Home")]
         public IActionResult Index()
         {
+            ViewBag.NewBreadcrumItem = new BreadcrumComponentsModel
+            {
+                ItemController = "home",
+                ItemAction = "index",
+                ItemTitle = "dashboard"
+            };
+
             return View();
         }
 

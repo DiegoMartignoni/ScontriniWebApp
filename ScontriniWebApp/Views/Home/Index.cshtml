@@ -1,13 +1,8 @@
-﻿@{
-    ViewData["Title"] = "Dashboard";
-}
+﻿
+@model BreadcrumComponentsModel
 
 <div class="text-left">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb bg-white font-weight-bolder">
-            <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
-        </ol>
-    </nav>
+    <vc:navigation-bar model="@ViewBag.NewBreadcrumItem"></vc:navigation-bar>
     <div class="container">
 
         <div class="card bg-white mb-4 border-0 shadow">

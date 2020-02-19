@@ -1,0 +1,21 @@
+﻿@model IPaginationInfo
+<form class="container d-flex justify-content-center" asp-controller="Receipt" asp-action="List">
+    @foreach (var methods in Model.PaymentChecked)
+    {
+        <input name="paymentMethods" value="@methods.ToLower()" formmethod="post" class="d-none" />
+    }
+    <input name="minValue" value="@Model.MinSliderPosition" formmethod="post" class="d-none" />
+    <input name="maxValue" value="@Model.MaxSliderPosition" formmethod="post" class="d-none" />
+    <input name="year" value="@Model.YearActive" formmethod="post" class="d-none" />
+    <input name="month" value="@Model.MonthActive" formmethod="post" class="d-none" />
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+
+            @for (int i = Math.Max(1, Model.CurrentPage - 4); i < Math.Min(Model.TotalPages + 1, Model.CurrentPage + 4); i++)
+            {
+                <li class="page-item @(Model.CurrentPage.Equals(i)? "active": "")"><button class="page-link" asp-route-page="@i" type="submit">@i</button></li>
+
+            }
+        </ul>
+    </nav>
+</form>

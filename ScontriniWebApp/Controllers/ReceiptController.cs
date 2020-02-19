@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using ScontriniWebApp.Models.InputModels;
 using ScontriniWebApp.Models.Services.Application;
 using ScontriniWebApp.Models.ViewModels;
-using ScontriniWebApp.Models.ViewModels.ViewComponents;
+using ScontriniWebApp.Models.ViewModels.ComponentsModels;
 
 namespace ScontriniWebApp.Controllers
 {
@@ -33,46 +33,57 @@ namespace ScontriniWebApp.Controllers
 
         public IActionResult List(ReceiptListInputModel model)
         {
-            ViewData["ComingFrom1"] = "Dashboard";
             ViewData["Title"] = "Lista Scontrini";
+
+            ViewBag.NewBreadcrumItem = new BreadcrumComponentsModel
+            {
+                ItemController = "receipt",
+                ItemAction = "list",
+                ItemTitle = "lista"
+            };
+
             ListReceiptsViewModel receipts = receiptService.GetReceiptsAsync(model.Page, model.PaymentMethods, model.PriceMinValue, model.PriceMaxValue, model.StartDate, model.EndtDate);
             return View(new ReceiptsViewModel
             {
                 ListReceipts = receipts,
-                MinValueSlider = new SliderViewComponent
+                MinValueSlider = new SliderComponentsModel
                 {
                     SliderPosition = model.UserMinValue,
                     SliderMinValue = 0.00m,
                     SliderMaxValue = ReceiptsPriceMaxValue
                 },
-                MaxValueSlider = new SliderViewComponent
+                MaxValueSlider = new SliderComponentsModel
                 {
                     SliderPosition = model.UserMaxValue,
                     SliderMaxValue = ReceiptsPriceMaxValue
                 },
-                YearRadio = new RadioViewComponent
+                YearRadio = new RadioComponentsModel
                 {
                     CurrentlyActive = model.Year,
                     RadioList = ReceiptsStoredYears
                 },
-                MonthRadio = new RadioViewComponent
+                MonthRadio = new RadioComponentsModel
                 {
                     CurrentlyActive = model.Month
                 },
-                PaymentMethodsCheckbox = new CheckboxViewComponent
+                PaymentMethodsCheckbox = new CheckboxComponentsModel
                 {
                     PaymentMethodsChecked = model.PaymentMethods,
                     PaymentMethodsStored = ReceiptsTransactionMethods
                 },
                 CurrentPage = model.Page
-            });
+        });
         }
 
         public async Task<IActionResult> Detail(int id)
         {
-            ViewData["ComingFrom1"] = "Dashboard";
-            ViewData["ComingFrom2"] = "Lista Scontrini";
-            ViewData["Title"] = "Dettaglio Scontrino";
+            ViewBag.NewBreadcrumItem = new BreadcrumComponentsModel
+            {
+                ItemController = "receipt",
+                ItemAction = "detail",
+                ItemTitle = "dettaglio"
+            };
+
             ReceiptDetailViewModel receipt = await receiptService.GetReceiptAsync(id);
             return View(receipt);
         }
