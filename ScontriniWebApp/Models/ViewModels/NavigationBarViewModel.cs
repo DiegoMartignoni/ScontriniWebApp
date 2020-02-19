@@ -14,7 +14,7 @@ namespace ScontriniWebApp.Models.ViewModels
         }
         public static List<INavigationBar> NavItems { get; set; }
 
-        public static bool RestoreNavTree(INavigationBar itemCheck)
+        public static bool Restore(INavigationBar itemCheck)
         {
             for (int i = 0; i < NavItems.Count; i++)
             {

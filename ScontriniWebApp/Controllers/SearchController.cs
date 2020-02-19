@@ -30,15 +30,16 @@ namespace ScontriniWebApp.Controllers
             List<GenericInputComponentsModel> inputValues = new List<GenericInputComponentsModel>();
             inputValues.Add(queryInput);
 
+            ViewData["Title"] = "Risultati Ricerca";
+
             ViewBag.NewBreadcrumItem = new BreadcrumComponentsModel
             {
                 ItemController = "search",
                 ItemAction = "index",
-                ItemTitle = "ricerca",
+                ItemTitle = ViewData["Title"].ToString(),
                 ItemInputValues = inputValues
             };
 
-            ViewData["Title"] = "Risultati Ricerca";
 
 
             SearchViewModel searchResult = receiptService.GetReceiptsBySearch(query);

@@ -12,7 +12,7 @@ namespace ScontriniWebApp.Customizations.ViewComponents
     {
         public IViewComponentResult Invoke(INavigationBar model)
         {
-            if (!NavigationBarViewModel.RestoreNavTree(model))
+            if (!NavigationBarViewModel.Restore(model))
             {
                 NavigationBarViewModel.NavItems.Add(model);
             }
