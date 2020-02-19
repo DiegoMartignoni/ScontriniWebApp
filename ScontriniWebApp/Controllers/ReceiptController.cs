@@ -26,8 +26,14 @@ namespace ScontriniWebApp.Controllers
         }
         public IActionResult Index()
         {
-            ViewData["ComingFrom1"] = "Dashboard";
-            ViewData["Title"] = "Lista Scontrini";
+            ViewBag.NewBreadcrumItem = new BreadcrumComponentsModel
+            {
+                ItemController = "receipt",
+                ItemAction = "index",
+                ItemTitle = "nuovo"
+            };
+            ViewData["Title"] = "Nuovo scontrino";
+
             return View();
         }
 

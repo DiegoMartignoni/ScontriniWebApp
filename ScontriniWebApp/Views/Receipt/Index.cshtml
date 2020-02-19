@@ -1,10 +1,37 @@
-﻿
-@{
-    ViewData["Title"] = "Index";
-}
-
-
-    <div class="text-center">
-        <h1 class="display-4">Scontrini</h1>
-        <p>tutte le operazioni disponibili da implementare</p>
+﻿<div class="text-center">
+    <vc:navigation-bar model="@ViewBag.NewBreadcrumItem"></vc:navigation-bar>
+    <div class="card bg-white mb-4 border-0 shadow">
+        <div class="card-header bg-white border-0 d-flex align-items-center">
+            <img src="~/media/plus-square-solid.svg" alt="plus" height="20" class="pr-3" />
+            <span>Inserisci Scontrino</span>
+        </div>
+        <div class="card-body">
+            <div class="d-flex flex-wrap justify-content-sm-start justify-content-center">
+                <a asp-area="" asp-controller="" asp-action="" class="card text-muted bg-light m-2 text-decoration-none shadow border-0" style="width: 10rem; height: 10rem;">
+                    <div class="card-header d-flex justify-content-center align-items-center">
+                        <img src="~/media/camera-retro-solid.svg" alt="camera" height="20" class="pr-2" />
+                        <h5 class="card-title m-0">Fotocamera</h5>
+                    </div>
+                    <div class="card-body d-flex justify-content-center align-items-center">
+                        <small class="card-title">Riconoscimento del testo tramite tecnologia OCR.</small>
+                    </div>
+                </a>
+                <a asp-area="" asp-controller="" asp-action="" class="card text-white bg-dark m-2 text-decoration-none shadow border-0" style="width: 10rem; height: 10rem;">
+                    <div class="card-header d-flex justify-content-center align-items-center">
+                        <img src="~/media/pencil-alt-solid-white.svg" alt="pencil" height="20" class="pr-2" />
+                        <h5 class="card-title m-0">Manuale</h5>
+                    </div>
+                    <div class="card-body d-flex justify-content-center align-items-center">
+                        <small class="card-title">Inserimento passo passo. Digtalizza i tuoi scontrini qui!</small>
+                    </div>
+                </a>
+                <div class="card text-muted bg-white m-2 text-decoration-none shadow border-0" style="width: 10rem; height: 10rem;">
+                    <div class="card-header h-100 d-flex flex-column justify-content-center align-items-center">
+                        <img src="~/media/bullhorn-solid-muted.svg" alt="bullhorn" height="40" class="pb-3" />
+                        <h5 class="card-title m-0">In Arrivo Presto ...</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+</div>
